@@ -6,6 +6,7 @@ import { LoginForm } from "./_components/login-form";
 export const metadata: Metadata = {
   title: "Đăng nhập",
 };
+export const dynamic = "force-static";
 export default function login() {
   return (
     <div className="flex flex-col items-center justify-center h-screen px-6 w-full md:w-[350px] mx-auto">

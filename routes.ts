@@ -1,9 +1,9 @@
 /**
  * An array of routes that are accessible to the public
  * These routes do not require authentication
- * @type {string[]}
+ * @type {RegExp[]}
  */
-export const publicRoutes = ["/"];
+export const publicRoutes = [/^\/?$/, /^\/post(?:\/[a-zA-Z0-9-]+)?$/];
 
 /**
  * An array of routes that are used for authentication

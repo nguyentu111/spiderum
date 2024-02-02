@@ -5,6 +5,8 @@ import Link from "next/link";
 export const metadata: Metadata = {
   title: "Đăng kí",
 };
+export const dynamic = "force-static";
+
 export default function register() {
   return (
     <div className="flex flex-col items-center justify-center h-screen px-6 w-full md:w-[350px] mx-auto">

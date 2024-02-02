@@ -6,6 +6,8 @@ import { Button } from "@/components/ui/button";
 import { NextStep } from "./_components/next-step";
 import { montserrat } from "../fonts";
 
+export const dynamic = "force-static";
+
 export default function NewPost() {
   const [title, setTitle] = useState("");
   const ref = useRef<HTMLDivElement | null>(null);

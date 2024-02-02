@@ -13,7 +13,18 @@ import { Button } from "@/components/ui/button";
 import { PostCarousel } from "@/components/post-carousel";
 import { Comments } from "./_components/comments";
 import { montserrat } from "@/app/fonts";
-export default function PostPage() {
+
+interface PostPageProps {
+  params: {
+    slug: string;
+  };
+}
+export async function generateStaticParams() {
+  return Promise.resolve([]);
+}
+export const dynamicParams = true;
+export default function PostPage({ params }: PostPageProps) {
+  const { slug } = params;
   return (
     <div className="text-14 leading-[1.5385615384] bg-white flex flex-col items-center min-h-[80vh]">
       <div className="py-[15px] px-[10px] mt-2 xl:w-[700px] lg:w-[650px] md:w-[600px] w-full">
