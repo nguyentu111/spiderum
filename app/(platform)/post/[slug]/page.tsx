@@ -23,6 +23,7 @@ export async function generateStaticParams() {
   return Promise.resolve([]);
 }
 export const dynamicParams = true;
+export const dynamic = "force-static";
 export default function PostPage({ params }: PostPageProps) {
   const { slug } = params;
   return (
