@@ -1,6 +1,6 @@
 import { Container } from "@/components/container";
-import { Cover } from "./_components/Cover";
-import { Sidebar } from "./_components/Sidebar";
+import { Sidebar } from "./_components/side-bar";
+import { Cover } from "./_components/cover";
 
 interface CategoryLayoutProps {
   children: React.ReactNode;
@@ -9,9 +9,9 @@ export default function CategoryLayout({ children }: CategoryLayoutProps) {
   return (
     <div className="w-full pb-8">
       <Cover />
-      <Container className="grid grid-cols-3 gap-14">
+      <Container className="lg:grid lg:grid-cols-3 gap-14">
         {children}
-        <Sidebar />
+        <Sidebar className="hidden lg:block" />
       </Container>
     </div>
   );

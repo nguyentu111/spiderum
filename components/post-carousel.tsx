@@ -1,5 +1,5 @@
 "use client";
-import { CardVertical } from "@/components/CardVertical";
+import { CardVertical } from "@/components/post-card-1";
 import { Card, CardContent } from "@/components/ui/card";
 import {
   Carousel,
@@ -31,8 +31,16 @@ export function PostCarousel() {
           </CarouselItem>
         ))}
       </CarouselContent>
-      <CarouselPrevious variant={"carousel"} size={"carousel"} />
-      <CarouselNext variant={"carousel"} size={"carousel"} />
+      <CarouselPrevious
+        variant={"carousel"}
+        size={"carousel"}
+        className="hidden lg:block"
+      />
+      <CarouselNext
+        variant={"carousel"}
+        size={"carousel"}
+        className="hidden lg:block"
+      />
     </Carousel>
   );
 }

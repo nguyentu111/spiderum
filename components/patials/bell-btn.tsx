@@ -24,7 +24,7 @@ export const BellBtn = () => {
       <PopoverContent
         align="end"
         side="bottom"
-        className="w-[414px] select-none"
+        className="md:!w-[414px] select-none"
       >
         <div className="px-4 text-20 font-bold ">Thông báo</div>
         <div className="p-2 h-60 flex items-center justify-center text-gray-800/50">

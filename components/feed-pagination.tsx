@@ -11,7 +11,7 @@ export const FeedPagination = ({
 
   return (
     <div className="pt-[15px] pb-[45px]">
-      <ul className="flex items-center">
+      <ul className="flex flex-wrap items-center">
         {Array.from({ length: 10 }).map((a, i) => {
           return (
             <li key={i}>

@@ -3,17 +3,16 @@ import { Facebook } from "@/components/icons/Facebook";
 import { Search } from "@/components/icons/Search";
 import { Spotify } from "@/components/icons/Spotify";
 import { Youtube } from "@/components/icons/Youtube";
-import { Logo } from "@/components/logo";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { HeaderAccount } from "./HeaderAccount";
-import { HeaderCategory } from "./HeaderCategory";
+import { HeaderAccount } from "./header-account";
+import { HeaderCategory } from "./header-category";
 import { Container } from "@/components/container";
 import { useSearch } from "@/hooks/use-search";
-import { HeaderSearch } from "./HeaderSearch";
+import { HeaderSearch } from "./header-search";
 import { cn } from "@/lib/utils";
 import { useCurrentUser } from "@/hooks/use-current-user";
-
+import { ResponsiveLogo } from "../responsive-logo";
 interface HeaderProps {
   hasSearch?: boolean;
   hasMessage?: boolean;
@@ -59,7 +58,7 @@ export const Header = ({
         )}
       </Container>
       {user && hasCategories ? (
-        <Container>
+        <Container className="hidden lg:block">
           <HeaderCategory />
         </Container>
       ) : null}
@@ -86,9 +85,9 @@ const MainHeader = ({
   return (
     <div className="h-12 flex items-center justify-between">
       <div className="flex items-center w-full">
-        <Logo />
+        <ResponsiveLogo />
         {hasSocials && (
-          <div className="border-l-[1px] ml-4 pl-2 flex mr-auto">
+          <div className="hidden md:flex border-l-[1px] ml-4 pl-2 mr-auto">
             <div className="flex">
               <a
                 href="https://www.facebook.com/Spiderum"
@@ -155,11 +154,7 @@ const MainHeader = ({
                 size={"lg"}
                 asChild
               >
-                <Link
-                  href={"/login"}
-                  className="hidden md:block"
-                  aria-label="Đăng nhập"
-                >
+                <Link href={"/login"} className="" aria-label="Đăng nhập">
                   Đăng nhập
                 </Link>
               </Button>

@@ -15,7 +15,7 @@ import {
 import { Series } from "./series";
 import { Categories } from "./categories";
 
-export function NextStep() {
+export function NextStep({ save }: { save: () => void }) {
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -48,7 +48,12 @@ export function NextStep() {
               Quay lại
             </Button>
           </DialogClose>
-          <Button type="button" variant="primary" className="w-[9rem] rounded">
+          <Button
+            type="button"
+            variant="primary"
+            className="w-[9rem] rounded"
+            onClick={save}
+          >
             Tạo
           </Button>
         </DialogFooter>

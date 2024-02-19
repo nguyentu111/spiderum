@@ -1,6 +1,7 @@
 import { PostCarousel } from "@/components/post-carousel";
-import { CardHorizontal } from "../../../../components/CardHorizontal";
-import { Feed } from "./_components/Feed";
+
+import { Feed } from "./_components/feed";
+import { CardVertical } from "@/components/post-card-1";
 
 interface CategoryPageProps {
   params: { slug: string };
@@ -12,9 +13,9 @@ export default function CategoryPage({
 }: CategoryPageProps) {
   const slug = params.slug;
   return (
-    <div className="col-span-2">
+    <div className="lg:col-span-2">
       <div className="mb-12">
-        <CardHorizontal />
+        <CardVertical />
       </div>
       <div className="mb-12">
         <PostCarousel />

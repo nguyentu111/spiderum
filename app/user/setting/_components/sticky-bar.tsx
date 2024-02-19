@@ -7,20 +7,25 @@ import { UserPlus } from "@/components/icons/UserPlus";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
-interface StickyBarProps {
+import { HTMLAttributes } from "react";
+interface StickyBarProps extends HTMLAttributes<HTMLUListElement> {
   changeTab: (tab: number) => void;
   tab: number;
 }
-export const Stickybar = ({ changeTab, tab }: StickyBarProps) => {
+export const Stickybar = ({ changeTab, tab, className }: StickyBarProps) => {
   return (
     <ul
-      className="flex flex-col items-start  fixed transition-opacity duration-200 ease-in-out   select-none w-[11rem]"
+      className={cn(
+        "flex lg:flex-col flex-wrap items-start lg:fixed transition-opacity duration-200 ease-in-out   select-none lg:w-[11rem] p-[15px] lg:p-0",
+        className
+      )}
       style={{ left: "calc((100% - 650px) / 2 - 14vw)", top: "20%" }}
     >
       <li
         className={cn(
-          tab === 1 && "border-l-[3px] border-blue-400 font-bold text-gray-600",
-          "p-1.5 cursor-pointer w-full hover:text-blue-500"
+          tab === 1 &&
+            "border-b-[3px] lg:border-b-0 lg:border-l-[3px] border-blue-400 font-bold text-gray-600",
+          "p-1.5 cursor-pointer lg:w-full hover:text-blue-500 px-4 lg:px-1.5"
         )}
         onClick={() => changeTab(1)}
       >
@@ -28,8 +33,9 @@ export const Stickybar = ({ changeTab, tab }: StickyBarProps) => {
       </li>
       <li
         className={cn(
-          tab === 2 && "border-l-[3px] border-blue-400 font-bold text-gray-600",
-          "p-1.5 cursor-pointer w-full hover:text-blue-500"
+          tab === 2 &&
+            "border-b-[3px] lg:border-b-0 lg:border-l-[3px] border-blue-400 font-bold text-gray-600",
+          "p-1.5 cursor-pointer lg:w-full hover:text-blue-500 px-4 lg:px-1.5"
         )}
         onClick={() => changeTab(2)}
       >
@@ -37,8 +43,9 @@ export const Stickybar = ({ changeTab, tab }: StickyBarProps) => {
       </li>
       <li
         className={cn(
-          tab === 3 && "border-l-[3px] border-blue-400 font-bold text-gray-600",
-          "p-1.5 cursor-pointer w-full hover:text-blue-500"
+          tab === 3 &&
+            "border-b-[3px] lg:border-b-0 lg:border-l-[3px] border-blue-400 font-bold text-gray-600",
+          "p-1.5 cursor-pointer lg:w-full hover:text-blue-500 px-4 lg:px-1.5"
         )}
         onClick={() => changeTab(3)}
       >
@@ -47,8 +54,8 @@ export const Stickybar = ({ changeTab, tab }: StickyBarProps) => {
       <li
         className={cn(
           tab === 4 &&
-            "border-l-[3px]  border-blue-400 font-bold text-gray-600",
-          "p-1.5 cursor-pointer w-full hover:text-blue-500"
+            "border-b-[3px] lg:border-b-0 lg:border-l-[3px]  border-blue-400 font-bold text-gray-600",
+          "p-1.5 cursor-pointer lg:w-full hover:text-blue-500"
         )}
         onClick={() => changeTab(4)}
       >

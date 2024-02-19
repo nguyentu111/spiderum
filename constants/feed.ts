@@ -19,7 +19,7 @@ export const feedsort = [
   },
   {
     value: "top",
-    label: "Dánh giá cao nhất",
+    label: "Đánh giá cao nhất",
   },
 ];
 export const feedsortVals = feedsort.map((f) => f.value);

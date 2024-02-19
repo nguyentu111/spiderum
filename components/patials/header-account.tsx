@@ -1,9 +1,8 @@
-import { Bell } from "@/components/icons/Bell";
 import { Feather } from "@/components/icons/Feather";
 import { Mail } from "@/components/icons/Mail";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { UserBox } from "../UserBox";
+import { UserBox } from "@/components/user-box";
 import { BellBtn } from "./bell-btn";
 
 interface HeaderAccountProps {
@@ -20,7 +19,7 @@ export const HeaderAccount = ({
         <Button
           variant="ghost"
           size="lg"
-          className="w-10 flex items-center justify-center mx-1"
+          className="w-10  items-center justify-center mx-1 hidden md:flex"
           asChild
         >
           <Link href={"/message"} aria-label="Tin nhắn">
@@ -42,7 +41,7 @@ export const HeaderAccount = ({
             className="flex items-center justify-center mx-1 "
             aria-label="Viết bài"
           >
-            <Feather className="text-gray-400 mr-2" size={16} />
+            <Feather className="text-gray-400 mr-2 hidden md:block" size={16} />
             <span>Viết bài</span>
           </Link>
         </Button>

@@ -5,13 +5,14 @@ import { Editor } from "./_components/editor";
 import { Button } from "@/components/ui/button";
 import { NextStep } from "./_components/next-step";
 import { montserrat } from "../fonts";
+import { useEditor } from "@/hooks/use-editor";
 
 export const dynamic = "force-static";
 
 export default function NewPost() {
   const [title, setTitle] = useState("");
   const ref = useRef<HTMLDivElement | null>(null);
-
+  const { save } = useEditor();
   const handleChange = (e: FormEvent<HTMLDivElement>) => {
     setTitle(e.currentTarget.textContent as string);
     if (ref.current)
@@ -33,6 +34,7 @@ export default function NewPost() {
               "text-[30px] leading-[3rem] mb-4 font-semibold outline-none before:content-[attr(data-placeholder)] relative  before:text-[#c4c4c4]"
             )}
           />
+
           <Editor />
         </div>
       </div>
@@ -40,7 +42,7 @@ export default function NewPost() {
         <Button variant={"secondary"} className="mr-4 rounded">
           Đã lưu
         </Button>
-        <NextStep />
+        <NextStep save={save} />
       </div>
     </>
   );

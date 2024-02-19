@@ -42,7 +42,7 @@ export const FeedHeader = ({
           <div className="pl-4 border-l-[4px] border-l-[#3199d5] text-18 font-bold">
             DÀNH CHO BẠN
           </div>
-          <div className="flex items-center">
+          <div className=" items-center hidden lg:flex">
             {categoryFeedsort.map((s) => (
               <Link
                 key={s.value}

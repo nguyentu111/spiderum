@@ -1,5 +1,5 @@
 import { BackToTop } from "@/components/backtotop";
-import { Header } from "@/components/patials/Header";
+import { Header } from "@/components/patials/header";
 import { Footer } from "@/components/patials/footer";
 
 interface NewPostLayoutProps {

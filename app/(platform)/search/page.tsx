@@ -1,10 +1,10 @@
 "use client";
 
 import { raleway } from "@/app/fonts";
-import { CardHorizontal } from "@/components/CardHorizontal";
-import { FeedPagination } from "@/components/FeedPagination";
+import { FeedPagination } from "@/components/feed-pagination";
 import { File } from "@/components/icons/File";
 import { User } from "@/components/icons/User";
+import { CardVertical } from "@/components/post-card-2";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
@@ -56,10 +56,10 @@ export default function SearchPage({
         </div>
         {type === "post" && (
           <div className="flex flex-col gap-14 mt-7">
-            <CardHorizontal />
-            <CardHorizontal />
-            <CardHorizontal />
-            <CardHorizontal />
+            <CardVertical />
+            <CardVertical />
+            <CardVertical />
+            <CardVertical />
           </div>
         )}
         {type === "user" && (

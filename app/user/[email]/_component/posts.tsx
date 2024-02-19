@@ -1,6 +1,6 @@
 import { Skeleton } from "@/components/ui/skeleton";
 
-export const Posts = () => {
+export const Posts = async () => {
   return (
     <div className="mt-2 text-center text-18">
       Không có gì để xem ở đây cả :&apos;(

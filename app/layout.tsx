@@ -2,11 +2,11 @@ import "./globals.css";
 import { cn } from "@/lib/utils";
 import { notoSans } from "./fonts";
 import { ProgressBar } from "@/components/progress-bar";
-import { metadata } from "@/lib/metadata";
 import { auth } from "@/auth";
 import { SessionProvider } from "next-auth/react";
-export { metadata };
+import { metadata } from "@/lib/metadata";
 
+export { metadata };
 export default async function RootLayout({
   children,
 }: {

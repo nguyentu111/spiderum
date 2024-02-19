@@ -1,5 +1,5 @@
 "use client";
-import { notFound, redirect, useRouter } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 import { feedsort } from "@/constants/feed";
 import { cn } from "@/lib/utils";
 export const FeedTabs = ({

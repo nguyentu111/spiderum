@@ -1,5 +1,5 @@
 import React from "react";
-import { Header } from "../../components/patials/Header";
+import { Header } from "../../components/patials/header";
 import { BackToTop } from "@/components/backtotop";
 import { Footer } from "@/components/patials/footer";
 

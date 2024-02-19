@@ -1,7 +1,6 @@
-import { Container } from "@/components/container";
-import { FeedTabs } from "./FeedTabs";
-import { FeedContent } from "./FeedContent";
-import { FeedPagination } from "./FeedPagination";
+import { FeedTabs } from "./feed-tabs";
+import { FeedContent } from "./feed-content";
+import { FeedPagination } from "./feed-pagination";
 
 export const Feed = ({
   searchParams,
@@ -12,7 +11,7 @@ export const Feed = ({
     <div id="feed">
       <FeedTabs searchParams={searchParams} />
       <FeedContent searchParams={searchParams} />
-      <FeedPagination searchParams={searchParams} />
+      {/* <FeedPagination searchParams={searchParams} /> */}
     </div>
   );
 };

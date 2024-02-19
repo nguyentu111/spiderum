@@ -5,6 +5,7 @@ import { CommentNode } from "./comment-node";
 export const Comments = () => {
   return (
     <div
+      id="comments"
       className="md:p-10 md:pb-0 px-6 pt-6  my-6 mx-auto border border-[var(--common-border-color)] rounded-[var(--border-radius)]"
       style={{
         boxShadow:

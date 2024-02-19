@@ -1,3 +1,4 @@
+import { logout } from "@/actions/logout";
 import { Bookmark } from "@/components/icons/Bookmark";
 import { Draft } from "@/components/icons/Draft";
 import { Gear } from "@/components/icons/Gear";
@@ -11,15 +12,15 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Separator } from "@/components/ui/separator";
+import { useCurrentUser } from "@/hooks/use-current-user";
 import Image from "next/image";
 import Link from "next/link";
-import { signOut, auth } from "@/auth";
-import { useCurrentUser } from "@/hooks/use-current-user";
-import { logout } from "@/actions/logout";
+import { useSearchParams } from "next/navigation";
 export const UserBox = () => {
   const user = useCurrentUser();
+  const searchParams = useSearchParams();
   return (
-    <Popover>
+    <Popover key={searchParams.get("tab")}>
       <PopoverTrigger asChild>
         <button aria-label="Tài khoản">
           <div className="mx-1 nav-toggle relative flex items-center justify-center">

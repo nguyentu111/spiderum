@@ -1,4 +1,4 @@
-import { CardHorizontal } from "./CardHorizontal";
+import { CardVertical } from "./post-card-2";
 
 export const FeedContent = ({
   searchParams,
@@ -7,7 +7,7 @@ export const FeedContent = ({
 }) => {
   return (
     <div className="mb-[66px]">
-      <CardHorizontal />
+      <CardVertical />
     </div>
   );
 };

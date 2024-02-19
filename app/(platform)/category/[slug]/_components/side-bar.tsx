@@ -1,4 +1,4 @@
-import { CardMinimize } from "@/components/CardMinimize";
+import { CardMinimize } from "@/components/card-minimize";
 import {
   Card,
   CardContent,
@@ -7,10 +7,13 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
+import { cn } from "@/lib/utils";
+import { HTMLAttributes } from "react";
 
-export const Sidebar = () => {
+interface SidebarProps extends HTMLAttributes<HTMLDivElement> {}
+export const Sidebar = ({ className }: SidebarProps) => {
   return (
-    <div>
+    <div className={cn(className)}>
       <Card className="h-fit mb-6">
         <CardHeader className="text-24 font-bold">
           QUAN ĐIỂM - TRANH LUẬN

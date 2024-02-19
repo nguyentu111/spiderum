@@ -28,7 +28,7 @@ export default {
           // const user = await getUserByEmail(email);
           const user: User = {
             email,
-            name: "tuna123",
+            name: "admin",
           };
           // if (!user || !user.password) return null;
 

@@ -1,8 +1,8 @@
-import { FeedContent } from "@/components/FeedContent";
-import { FeedPagination } from "@/components/FeedPagination";
+import { FeedContent } from "@/components/feed-content";
+import { FeedPagination } from "@/components/feed-pagination";
+import { FeedHeader } from "./feed-header";
 
 import React from "react";
-import { FeedHeader } from "./FeedHeader";
 
 const FeedCurrentPage = ({ children }: { children: React.ReactNode }) => {
   return (

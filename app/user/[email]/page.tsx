@@ -6,65 +6,75 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
-import { Menu } from "./_component/Menu";
-import { Series } from "./_component/Series";
-import { SavedPosts } from "./_component/SavedPosts";
+import { Menu } from "./_component/menu";
+import { SavedPosts } from "./_component/saved-posts";
+import { auth } from "@/auth";
+import { ExtendedUser } from "@/next-auth";
 import { Posts } from "./_component/posts";
+import { Suspense } from "react";
+import { Series } from "./_component/series";
 
 interface UserPageProps {
   params: { slug: string };
   searchParams: { [key: string]: string | string[] | undefined };
 }
-export default function UserPage({ params, searchParams }: UserPageProps) {
+export default async function UserPage({
+  params,
+  searchParams,
+}: UserPageProps) {
+  const session = await auth();
+  const user = session?.user as ExtendedUser;
   const tab = searchParams.tab;
   return (
     <div className="flex">
       <div className="lg:bg-[var(--profile-bg-color)] flex-1"></div>
       <Container className="md:px-0">
-        <div className="grid gap-[1.2rem] md:grid-cols-4">
-          <div className="px-4 pb-4 bg-[var(--profile-bg-color)] ">
-            <div className="flex">
+        <div className="lg:grid gap-[1.2rem] lg:grid-cols-4">
+          <div className="w-full px-4 pb-4 bg-[var(--profile-bg-color)] ">
+            <div className="flex justify-center">
               <Image
                 src="https://www.gravatar.com/avatar/d8d6e65667fcdeca659355b80972658c?d=wavatar&f=y"
                 alt=""
                 width={142}
                 height={142}
-                className="w-36 h-36 rounded-full flex-shrink-0 border border-[#dcdfe5] -mt-[72px] relative"
+                className="md:w-36 md:h-36  w-32 h-32 rounded-full flex-shrink-0 border border-[#dcdfe5] -mt-[60px] relative"
               />
             </div>
-            <div className="mt-3">
-              <h1>
-                <Link
-                  href="/user/tunguyen123"
-                  className="text-18 font-bold text-[rgb(74,85,104)]"
-                >
-                  tuna333
-                </Link>
-              </h1>
-              <div className="text-14 fon">
-                <Link
-                  href="/user/tunguyen123"
-                  className="text-14  text-[rgb(160,174,192)]"
-                >
-                  @tunguyen23123fr23
-                </Link>
+            <div className="max-w-[260px] mx-auto">
+              <div className="mt-3">
+                <h1>
+                  <Link
+                    href={`/user/${user.name}`}
+                    className="text-18 font-bold text-[rgb(74,85,104)]"
+                  >
+                    {user.name}
+                  </Link>
+                </h1>
+                <div className="text-14 fon">
+                  <Link
+                    href={`/user/${user.name}`}
+                    className="text-14  text-[rgb(160,174,192)]"
+                  >
+                    {user.email}
+                  </Link>
+                </div>
               </div>
-            </div>
-            <Button variant={"secondary"} className="rounded mt-3 w-full">
-              <Link href="/user/setting">Chỉnh sửa trang cá nhân</Link>
-            </Button>
-            <div className="mt-3 flex justify-between">
-              <div className="flex flex-col">
-                <div className="font-bold">0</div>
-                <div className="text-14">followers</div>
-              </div>
-              <div className="flex flex-col">
-                <div className="font-bold">0</div>
-                <div className="text-14">following</div>
-              </div>
-              <div className="flex flex-col">
-                <div className="font-bold">0</div>
-                <div className="text-14">spiders</div>
+              <Button variant={"secondary"} className="rounded mt-3 w-full">
+                <Link href="/user/setting">Chỉnh sửa trang cá nhân</Link>
+              </Button>
+              <div className="mt-3 flex justify-between">
+                <div className="flex flex-col">
+                  <div className="font-bold">0</div>
+                  <div className="text-14">followers</div>
+                </div>
+                <div className="flex flex-col">
+                  <div className="font-bold">0</div>
+                  <div className="text-14">following</div>
+                </div>
+                <div className="flex flex-col">
+                  <div className="font-bold">0</div>
+                  <div className="text-14">spiders</div>
+                </div>
               </div>
             </div>
           </div>
@@ -81,7 +91,7 @@ export default function UserPage({ params, searchParams }: UserPageProps) {
                   )}
                 >
                   <Feather className="text-gray-400 mr-2" size={16} />
-                  <span className="ml-2">Bài viết (0)</span>
+                  <span className="ml-2 whitespace-nowrap">Bài viết (0)</span>
                 </Link>
                 <Link
                   href="/user/tunguyen123?tab=series"
@@ -98,7 +108,7 @@ export default function UserPage({ params, searchParams }: UserPageProps) {
                   className={cn(
                     tab == "savedPosts" &&
                       "border-b-2 border-[#3398d4] font-bold",
-                    "flex items-center justify-center px-4 py-2 "
+                    "items-center justify-center px-4 py-2 hidden md:flex"
                   )}
                 >
                   <Bookmark
@@ -114,9 +124,21 @@ export default function UserPage({ params, searchParams }: UserPageProps) {
             {/* tab content */}
 
             <div className="">
-              {tab != "series" && tab != "savedPosts" && <Posts />}
-              {tab == "series" && <Series />}
+              {!tab && (
+                <Suspense fallback={<Posts.Skeleton />}>
+                  <Posts />
+                </Suspense>
+              )}
+              {tab == "series" && (
+                <Suspense fallback={<Series.Skeleton />}>
+                  <Series />
+                </Suspense>
+              )}
               {tab == "savedPosts" && <SavedPosts />}
+              {tab == "comments" && <div>comments</div>}
+              {tab == "followers" && <div>followers</div>}
+              {tab == "following" && <div>following</div>}
+              {tab == "draft" && <div>draft</div>}
             </div>
           </div>
         </div>

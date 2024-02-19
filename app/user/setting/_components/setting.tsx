@@ -26,9 +26,9 @@ export const Setting = () => {
   const [tab, setTab] = useState(1);
   return (
     <>
-      <Stickybar changeTab={setTab} tab={tab} />
       <div className="min-h-[68vh]">
-        <div className="md:w-[45rem] mx-auto w-full relative py-6">
+        <div className="md:w-[45rem] mx-auto w-full relative py-6 px-4">
+          <Stickybar changeTab={setTab} tab={tab} />
           {tab === 1 && <AccountSetting />}
           {tab === 2 && <SeriesSetting />}
           {tab === 3 && <BlockedUserSetting />}

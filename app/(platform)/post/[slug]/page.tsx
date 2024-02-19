@@ -23,7 +23,7 @@ export async function generateStaticParams() {
   return Promise.resolve([]);
 }
 export const dynamicParams = true;
-export const dynamic = "force-static";
+export const dynamic = "force-dynamic";
 export default function PostPage({ params }: PostPageProps) {
   const { slug } = params;
   return (
@@ -133,7 +133,7 @@ export default function PostPage({ params }: PostPageProps) {
           </Button>
         </div>
       </div>
-      <div className="w-full md:w-[750px] lg:w-[900px] mb-6">
+      <div className="w-full md:w-[750px] lg:w-[900px] mb-6 px-4">
         <div className="my-6">
           <strong>Bài viết nổi bật</strong>
         </div>

@@ -1,12 +1,12 @@
-import Image from "next/image";
-import { Banner } from "./_components/Banner";
-import { PopularBlogs } from "./_components/PopularBlogs";
-import { Feed } from "../../components/Feed";
-import { Sidebar } from "@/components/sidebar";
-import { Container } from "@/components/container";
 import Link from "next/link";
-import { WriterContainer } from "./_components/WirterContainer";
-import { CardVertical } from "../../components/CardVertical";
+import { Container } from "@/components/container";
+import { Feed } from "@/components/feed";
+
+import { PopularBlogs } from "./_components/popular-blogs";
+import { WriterContainer } from "./_components/writer-container";
+import { CardVertical } from "../../components/post-card-1";
+import { Banner } from "./_components/banner";
+import { Categories } from "./_components/categories";
 
 export default function HomePage({
   params,
@@ -19,12 +19,14 @@ export default function HomePage({
     <div className="pb-8">
       <Banner />
       <PopularBlogs />
-      <Container className="grid grid-cols-3 gap-14 mt-6">
-        <div className="col-span-2">
+      <Container className="flex  flex-col-reverse lg:grid lg:grid-cols-3 gap-x-14 mt-6">
+        <div className="lg:col-span-2">
           <Feed searchParams={searchParams} />
         </div>
         <div>
-          <Sidebar>
+          <Categories />
+
+          <div className="mb-6 hidden lg:block px-4 border-[1px] border-[var(--common-border-color)]">
             <div className="flex  my-6">
               <h2 className="upppercase font-semibold ">Cây bút nổi bật</h2>
               <div className="bg-[#fef3c7] py-0.5 px-3 ml-2 text-[14px] text-[#92400e] font-medium">
@@ -39,8 +41,8 @@ export default function HomePage({
               <WriterContainer />
               <WriterContainer />
             </div>
-          </Sidebar>
-          <Sidebar>
+          </div>
+          <div className="mb-6 hidden lg:block px-4 border-[1px] border-[var(--common-border-color)]">
             <div className="flex  my-6">
               <h2 className="upppercase font-semibold ">Cũ nhưng chất</h2>
               <Link href="/top-author" className="ml-auto text-12">
@@ -50,7 +52,7 @@ export default function HomePage({
             <div className="pb-6">
               <CardVertical showCategory />
             </div>
-          </Sidebar>
+          </div>
         </div>
       </Container>
     </div>
