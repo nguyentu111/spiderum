@@ -11,7 +11,6 @@ export const Feed = ({
     <div id="feed">
       <FeedTabs searchParams={searchParams} />
       <FeedContent searchParams={searchParams} />
-      {/* <FeedPagination searchParams={searchParams} /> */}
     </div>
   );
 };
