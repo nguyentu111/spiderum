@@ -14,8 +14,15 @@ import {
 } from "@/components/ui/dialog";
 import { Series } from "./series";
 import { Categories } from "./categories";
+import { CategoryWithTag } from "@/types";
 
-export function NextStep({ save }: { save: () => void }) {
+export function NextStep({
+  save,
+  categories,
+}: {
+  save: () => void;
+  categories: CategoryWithTag[];
+}) {
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -35,7 +42,7 @@ export function NextStep({ save }: { save: () => void }) {
             <Series />
           </div>
           <div className="py-3 w-full">
-            <Categories />
+            <Categories categories={categories} />
           </div>
         </div>
         <DialogFooter className="justify-center items-center">

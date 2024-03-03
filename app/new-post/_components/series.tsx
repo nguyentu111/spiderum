@@ -1,8 +1,10 @@
 import { Button } from "@/components/ui/button";
 import { PlusIcon } from "@radix-ui/react-icons";
-import { FormEvent, FormEventHandler, useState } from "react";
+import { useSession } from "next-auth/react";
+import { FormEvent, useState } from "react";
 
 export const Series = () => {
+  const { data: session } = useSession();
   const [open, setOpen] = useState(false);
   const [name, setName] = useState("");
   const handleAddSerie = (e: FormEvent<HTMLFormElement>) => {

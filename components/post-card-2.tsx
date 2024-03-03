@@ -7,13 +7,16 @@ import Link from "next/link";
 import { HTMLAttributes } from "react";
 import { TriangleUp } from "./icons/TriangleUp";
 import { Chat } from "./icons/Chat";
+import { Post } from "@/types";
 
 interface CardVerticalProps extends HTMLAttributes<HTMLDivElement> {
   showCategory?: boolean;
+  post: Post;
 }
 export const CardVertical = ({
   showCategory,
   className,
+  post,
   ...rest
 }: CardVerticalProps) => {
   return (
@@ -30,6 +33,7 @@ export const CardVertical = ({
       >
         <Image
           src={
+            post.thumbnail ??
             "https://images.spiderum.com/sp-thumbnails/341857b0ac9111eeabed5537d8e13793.png"
           }
           alt=""
@@ -69,8 +73,7 @@ export const CardVertical = ({
             <div className="mt-2   ">
               <Link href="/post/Cafein-va-Bieu-tinh-o-Phap-2-ly-ca-phe-moi-ngay-va-1-giac-ngu-kem-chat-luong-NTLWezQ8fNoj">
                 <h2 className="text-sm line-clamp-2 font-semibold mb-2 sm:text-[18px] text-ellipsis overflow-hidden">
-                  Cafein và Biểu tình ở Pháp. HAI ly cà phê mỗi ngày bằng MỘT
-                  giấc ngủ kém chất lượng.
+                  {post.name}
                 </h2>
               </Link>
             </div>
@@ -81,17 +84,26 @@ export const CardVertical = ({
           </div>
         </div>
         <div className="flex items-center">
-          <Link href="/" className="mr-3 relative w-10 h-10 lg:w-12 lg:h-12">
+          <Link
+            href={`/user/${post.author?.username}`}
+            className="mr-3 relative w-10 h-10 lg:w-12 lg:h-12"
+          >
             <Image
-              src="https://images.spiderum.com/sp-xs-avatar/001befb0738b11e98bc52d654e80e4ac.jpg"
+              src={
+                post.author?.avatar_url ??
+                "https://images.spiderum.com/sp-xs-avatar/001befb0738b11e98bc52d654e80e4ac.jpg"
+              }
               alt=""
               fill
               className="rounded-full"
               sizes=""
             />
           </Link>
-          <Link href="/" className="text-[14px] font-semibold">
-            Limitless
+          <Link
+            href={`/user/${post.author?.username}`}
+            className="text-[14px] font-semibold"
+          >
+            {post.author?.alias}
           </Link>
           <div className="ml-4 text-[12px] text-[#909399] relative before:absolute before:w-1 before:h-1 before:rounded-full before:top-1/2 before:-left-2  before:bg-[#c4c4c4]">
             6 Th1
@@ -102,7 +114,7 @@ export const CardVertical = ({
             </button>
             <span className="ml-1">2</span>
             <Link
-              href="/post/1wfwerfwef#comments"
+              href={`/post/${post.slug}#comment`}
               className="my-2 text-[rgba(113,128,150,1)] ml-3"
             >
               <Chat size={17} />

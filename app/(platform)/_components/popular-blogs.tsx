@@ -2,8 +2,9 @@ import { Container } from "@/components/container";
 import Link from "next/link";
 import { CardVertical } from "../../../components/post-card-1";
 import { ArrowRightIcon } from "@radix-ui/react-icons";
+import { Post } from "@/types";
 
-export const PopularBlogs = () => {
+export const PopularBlogs = ({ posts }: { posts: Post[] }) => {
   return (
     <div className="pt-6 pb-10 bg-[var(--trending-background)]">
       <Container className="max-w-full">
@@ -19,18 +20,11 @@ export const PopularBlogs = () => {
           </Link>
         </div>
         <div className="grid md:grid-cols-2 lg:grid-cols-4 md:gap-y-4 lg:gap-y-6 md:-mx-2 max-w-full overflow-hidden">
-          <div className="px-2 mb-6 md:mb-0 ">
-            <CardVertical />
-          </div>
-          <div className="px-2 mb-6 md:mb-0 ">
-            <CardVertical />
-          </div>
-          <div className="px-2 mb-6 md:mb-0 ">
-            <CardVertical />
-          </div>
-          <div className="px-2 mb-6 md:mb-0 ">
-            <CardVertical />
-          </div>
+          {posts.map((post) => (
+            <div className="px-2 mb-6 md:mb-0 " key={post.id}>
+              <CardVertical post={post} />
+            </div>
+          ))}
           <Link
             href="/top-post"
             className="text-[var(--trending-title)] md:hidden ml-auto text-sm underline flex items-center"

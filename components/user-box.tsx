@@ -12,12 +12,13 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Separator } from "@/components/ui/separator";
-import { useCurrentUser } from "@/hooks/use-current-user";
+import { getCsrfToken, useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 export const UserBox = () => {
-  const user = useCurrentUser();
+  const { data: session } = useSession();
+  const user = session?.user!;
   const searchParams = useSearchParams();
   return (
     <Popover key={searchParams.get("tab")}>
@@ -27,8 +28,7 @@ export const UserBox = () => {
             <div
               className="mx-1 bg-cover bg-no-repeat mr-1.5 w-10 h-10 flex items-center justify-center rounded-full relative navbar-toggle"
               style={{
-                backgroundImage:
-                  "url('https://www.gravatar.com/avatar/d8d6e65667fcdeca659355b80972658c?d=wavatar&f=y')",
+                backgroundImage: `url(${user.avatar_url})`,
               }}
             ></div>
           </div>
@@ -41,16 +41,16 @@ export const UserBox = () => {
       >
         <div className="mx-2 p-2 flex  ">
           <Image
-            src="https://www.gravatar.com/avatar/d8d6e65667fcdeca659355b80972658c?d=wavatar&f=y"
+            src={user.avatar_url!}
             width={46}
             height={46}
             alt="avatar"
             className="mr-4 w-12 h-12 rounded"
           />
           <div>
-            <span className="font-bold">tuna333</span>
+            <span className="font-bold">{user.alias}</span>
             <div className="text-sm text-[rgba(var(--gray-600),.75)]">
-              {user?.email}
+              @{user.username}
             </div>
             <Button variant={"secondary"}>
               <Link href="/user/tunguyen123">Xem trang cá nhân</Link>

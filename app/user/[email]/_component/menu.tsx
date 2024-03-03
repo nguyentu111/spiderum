@@ -6,13 +6,13 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { useCurrentUser } from "@/hooks/use-current-user";
-import { ExtendedUser } from "@/next-auth";
+import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 
 export const Menu = () => {
   const router = useRouter();
-  const user = useCurrentUser() as ExtendedUser;
+  const { data: session } = useSession();
+  const user = session?.user!;
   return (
     <Popover>
       <PopoverTrigger asChild>
@@ -27,7 +27,7 @@ export const Menu = () => {
         alignOffset={0}
       >
         <Button
-          onClick={() => router.push(`/user/${user.name}?tab=savedPosts`)}
+          onClick={() => router.push(`/user/${user.username}?tab=savedPosts`)}
           className="md:hidden cursor-pointer p-4 w-full justify-start font-normal h-auto hover:text-gray-900 hover:bg-gray-100 text-gray-700 rounded-none"
           variant={"ghost"}
           asChild
@@ -35,7 +35,7 @@ export const Menu = () => {
           <div>Đã lưu</div>
         </Button>
         <Button
-          onClick={() => router.push(`/user/${user.name}?tab=comments`)}
+          onClick={() => router.push(`/user/${user.username}?tab=comments`)}
           className="cursor-pointer p-4 w-full flex justify-start font-normal h-auto hover:text-gray-900 hover:bg-gray-100 text-gray-700 rounded-none"
           variant={"ghost"}
           asChild
@@ -44,7 +44,7 @@ export const Menu = () => {
         </Button>
 
         <Button
-          onClick={() => router.push(`/user/${user.name}?tab=followers`)}
+          onClick={() => router.push(`/user/${user.username}?tab=followers`)}
           className="cursor-pointer p-4 w-full flex justify-start font-normal h-auto hover:text-gray-900 hover:bg-gray-100 text-gray-700 rounded-none"
           variant={"ghost"}
           asChild
@@ -52,7 +52,7 @@ export const Menu = () => {
           <div>Người theo dõi</div>
         </Button>
         <Button
-          onClick={() => router.push(`/user/${user.name}?tab=following`)}
+          onClick={() => router.push(`/user/${user.username}?tab=following`)}
           className="cursor-pointer p-4 w-full flex justify-start font-normal h-auto hover:text-gray-900 hover:bg-gray-100 text-gray-700 rounded-none"
           variant={"ghost"}
           asChild
@@ -60,7 +60,7 @@ export const Menu = () => {
           <div>Đang theo dõi</div>
         </Button>
         <Button
-          onClick={() => router.push(`/user/${user.name}?tab=draft`)}
+          onClick={() => router.push(`/user/${user.username}?tab=draft`)}
           className="cursor-pointer p-4 w-full flex justify-start font-normal h-auto hover:text-gray-900 hover:bg-gray-100 text-gray-700 rounded-none"
           variant={"ghost"}
           asChild

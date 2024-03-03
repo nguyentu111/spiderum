@@ -69,7 +69,6 @@ export const useEditor = () => {
   const save = async () => {
     if (ref.current) {
       const output = await ref.current.save();
-      console.log(output);
     }
   };
   return { ref, featureImg, save };

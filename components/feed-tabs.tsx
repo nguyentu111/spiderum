@@ -2,17 +2,11 @@
 import { redirect, useRouter } from "next/navigation";
 import { feedsort } from "@/constants/feed";
 import { cn } from "@/lib/utils";
-export const FeedTabs = ({
-  searchParams,
-}: {
-  searchParams: { [key: string]: string | string[] | undefined };
-}) => {
-  const sort = searchParams.sort as string;
-  const page_idx = searchParams.page_idx;
+export const FeedTabs = ({ sort }: { sort: string }) => {
   const router = useRouter();
   // if (!sort || feedsort.map((f) => f.val).includes(sort)) return notFound();
 
-  if (!page_idx) redirect(`/?sort=${sort}&page_idx=1`);
+  // if (!page_idx) redirect(`/?sort=${sort}&page_idx=1`);
   return (
     <div className="mb-6 w-full overflow-x-auto border-b-[var(--filter-border-color)] border-b-[1px] flex items-center">
       {feedsort.map((f) => (

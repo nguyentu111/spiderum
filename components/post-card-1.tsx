@@ -1,32 +1,36 @@
 import { Bookmark } from "@/components/icons/Bookmark";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { Post } from "@/types";
 import Image from "next/image";
 import Link from "next/link";
 import { HTMLAttributes } from "react";
 
 interface CardVerticalProps extends HTMLAttributes<HTMLDivElement> {
   showCategory?: boolean;
+  post: Post;
 }
 export const CardVertical = ({
   showCategory,
   className,
+  post,
   ...rest
 }: CardVerticalProps) => {
   return (
     <div
       className={cn(
-        "flex md:flex-col  gap-2 max-w-full overflow-hidden bg-yellow-400",
+        "flex md:flex-col  gap-2 max-w-full overflow-hidden ",
         className
       )}
       {...rest}
     >
       <Link
-        href="/post/Cafein-va-Bieu-tinh-o-Phap-2-ly-ca-phe-moi-ngay-va-1-giac-ngu-kem-chat-luong-NTLWezQ8fNoj"
+        href={`/post/${post.slug}`}
         className="md:aspect-video relative sm:w-[12rem] min-w-24 sm:flex-shrink-0  md:w-auto"
       >
         <Image
           src={
+            post.thumbnail ??
             "https://images.spiderum.com/sp-thumbnails/341857b0ac9111eeabed5537d8e13793.png"
           }
           alt=""
@@ -66,27 +70,32 @@ export const CardVertical = ({
           </div>
           <div className="mb-2">
             <div className="mt-2   ">
-              <Link href="/post/Cafein-va-Bieu-tinh-o-Phap-2-ly-ca-phe-moi-ngay-va-1-giac-ngu-kem-chat-luong-NTLWezQ8fNoj">
+              <Link href={`/post/${post.slug}`}>
                 <h2 className="text-sm line-clamp-2 font-semibold mb-2 sm:text-[18px] text-ellipsis overflow-hidden">
-                  Cafein và Biểu tình ở Pháp. HAI ly cà phê mỗi ngày bằng MỘT
-                  giấc ngủ kém chất lượng.
+                  {post.name}
                 </h2>
               </Link>
             </div>
           </div>
         </div>
         <div className="flex items-center">
-          <Link href="/" className="mr-3">
+          <Link href={`/user/${post.author?.username}`} className="mr-3">
             <Image
-              src="https://images.spiderum.com/sp-xs-avatar/001befb0738b11e98bc52d654e80e4ac.jpg"
+              src={
+                post.author?.avatar_url ??
+                "https://images.spiderum.com/sp-xs-avatar/001befb0738b11e98bc52d654e80e4ac.jpg"
+              }
               alt=""
               width={24}
               height={24}
               className="rounded-full"
             />
           </Link>
-          <Link href="/" className="text-[14px] font-semibold">
-            Limitless
+          <Link
+            href={`/user/${post.author?.username}`}
+            className="text-[14px] font-semibold"
+          >
+            {post.author?.alias}
           </Link>
           <div className="ml-4 text-[12px] text-[#909399] relative before:absolute before:w-1 before:h-1 before:rounded-full before:top-1/2 before:-left-2  before:bg-[#c4c4c4]">
             6 Th1

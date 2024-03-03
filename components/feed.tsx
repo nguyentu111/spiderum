@@ -1,16 +1,13 @@
 import { FeedTabs } from "./feed-tabs";
 import { FeedContent } from "./feed-content";
 import { FeedPagination } from "./feed-pagination";
+import { Post } from "@/types";
 
-export const Feed = ({
-  searchParams,
-}: {
-  searchParams: { [key: string]: string | string[] | undefined };
-}) => {
+export const Feed = ({ sort, posts }: { sort: string; posts: Post[] }) => {
   return (
     <div id="feed">
-      <FeedTabs searchParams={searchParams} />
-      <FeedContent searchParams={searchParams} />
+      <FeedTabs sort={sort} />
+      <FeedContent posts={posts} />
     </div>
   );
 };

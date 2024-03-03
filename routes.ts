@@ -3,14 +3,25 @@
  * These routes do not require authentication
  * @type {RegExp[]}
  */
-export const publicRoutes = [/^\/?$/, /^\/post(?:\/[a-zA-Z0-9-]+)?$/];
+export const publicRoutes = [
+  /^\/?$/,
+  /^\/post(?:\/[a-zA-Z0-9-]+)?$/,
+  /^\/category(?:\/[a-zA-Z0-9-]+)?$/,
+];
 
 /**
  * An array of routes that are used for authentication
  * These routes will redirect logged in users to /settings
  * @type {string[]}
  */
-export const authRoutes = ["/login", "/register", "/error"];
+export const authRoutes = [
+  "/login",
+  "/register",
+  "/error",
+  "/create-new-account",
+  "/forgot-password",
+  "/reset-password",
+];
 
 /**
  * The prefix for API authentication routes

@@ -9,3 +9,14 @@ export const cutWords = (words: string, num = 20) => {
   if (w.length > num) return w.slice(0, num).join(" ") + "...";
   return words;
 };
+// export const getRandomAvatar = () => {
+//   cloudinary.api.resources(
+//     {
+//       type: "upload",
+//       prefix: "spiderum", // add your folder
+//     },
+//     function (error, result) {
+//       console.log(result, error);
+//     }
+//   );
+// };

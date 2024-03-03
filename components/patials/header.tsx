@@ -11,8 +11,8 @@ import { Container } from "@/components/container";
 import { useSearch } from "@/hooks/use-search";
 import { HeaderSearch } from "./header-search";
 import { cn } from "@/lib/utils";
-import { useCurrentUser } from "@/hooks/use-current-user";
 import { ResponsiveLogo } from "../responsive-logo";
+import { useSession } from "next-auth/react";
 interface HeaderProps {
   hasSearch?: boolean;
   hasMessage?: boolean;
@@ -35,7 +35,8 @@ export const Header = ({
 }: HeaderProps) => {
   const isOpen = useSearch((state) => state.isOpen);
   const onOpen = useSearch((state) => state.onOpen);
-  const user = useCurrentUser();
+  const { data: session } = useSession();
+  const user = session?.user;
   return (
     <nav
       style={{

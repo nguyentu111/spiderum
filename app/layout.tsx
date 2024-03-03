@@ -5,6 +5,7 @@ import { ProgressBar } from "@/components/progress-bar";
 import { auth } from "@/auth";
 import { SessionProvider } from "next-auth/react";
 import { metadata } from "@/lib/metadata";
+import { Toaster } from "@/components/ui/sonner";
 
 export { metadata };
 export default async function RootLayout({
@@ -24,6 +25,7 @@ export default async function RootLayout({
         >
           {children}
           <ProgressBar />
+          <Toaster />
         </body>
       </html>
     </SessionProvider>

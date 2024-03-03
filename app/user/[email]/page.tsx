@@ -9,7 +9,6 @@ import Link from "next/link";
 import { Menu } from "./_component/menu";
 import { SavedPosts } from "./_component/saved-posts";
 import { auth } from "@/auth";
-import { ExtendedUser } from "@/next-auth";
 import { Posts } from "./_component/posts";
 import { Suspense } from "react";
 import { Series } from "./_component/series";
@@ -23,7 +22,8 @@ export default async function UserPage({
   searchParams,
 }: UserPageProps) {
   const session = await auth();
-  const user = session?.user as ExtendedUser;
+
+  const user = session?.user!;
   const tab = searchParams.tab;
   return (
     <div className="flex">
@@ -44,18 +44,18 @@ export default async function UserPage({
               <div className="mt-3">
                 <h1>
                   <Link
-                    href={`/user/${user.name}`}
+                    href={`/user/${user.alias ?? user.username}`}
                     className="text-18 font-bold text-[rgb(74,85,104)]"
                   >
-                    {user.name}
+                    {user.alias ?? user.username}
                   </Link>
                 </h1>
                 <div className="text-14 fon">
                   <Link
-                    href={`/user/${user.name}`}
+                    href={`/user/${user.user_info.email}`}
                     className="text-14  text-[rgb(160,174,192)]"
                   >
-                    {user.email}
+                    {user.user_info.email}
                   </Link>
                 </div>
               </div>
