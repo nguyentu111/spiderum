@@ -22,7 +22,6 @@ export default async function UserPage({
   searchParams,
 }: UserPageProps) {
   const session = await auth();
-
   const user = session?.user!;
   const tab = searchParams.tab;
   return (

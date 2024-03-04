@@ -59,5 +59,16 @@ export interface CategoryWithTag {
   slug: string;
   created_at: string;
   updated_at: string;
-  tags: [];
+  tags: Tag[];
+}
+export interface Serie {
+  id: string;
+  name: string;
+  slug: string;
+  author_id: string;
+  description: null;
+  is_shown: 1;
+  thumbnail: null;
+  created_at: string;
+  updated_at: string;
 }

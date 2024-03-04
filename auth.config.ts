@@ -5,10 +5,6 @@ import { LoginSchema } from "./schema";
 import { axiosCient } from "./lib/fetcher";
 // import Github from "next-auth/providers/github";
 // import Google from "next-auth/providers/google";
-
-// import { LoginSchema } from "@/schemas";
-// import { getUserByEmail } from "@/data/user";
-
 export default {
   providers: [
     // Google({
@@ -23,7 +19,6 @@ export default {
       async authorize(credentials): Promise<User | null> {
         const validatedFields = LoginSchema.safeParse(credentials);
         if (validatedFields.success) {
-          const { email, password } = validatedFields.data;
           try {
             const rs = await axiosCient.post("/login", validatedFields.data);
             const data = rs.data;

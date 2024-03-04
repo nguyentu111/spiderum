@@ -6,6 +6,7 @@ import { auth } from "@/auth";
 import { SessionProvider } from "next-auth/react";
 import { metadata } from "@/lib/metadata";
 import { Toaster } from "@/components/ui/sonner";
+import QueryProvider from "@/components/providers/query-provider";
 
 export { metadata };
 export default async function RootLayout({
@@ -16,18 +17,20 @@ export default async function RootLayout({
   const session = await auth();
   return (
     <SessionProvider session={session}>
-      <html lang="en">
-        <body
-          className={cn(
-            notoSans.className,
-            "selection:bg-[#39f] selection:text-white"
-          )}
-        >
-          {children}
-          <ProgressBar />
-          <Toaster />
-        </body>
-      </html>
+      <QueryProvider>
+        <html lang="en">
+          <body
+            className={cn(
+              notoSans.className,
+              "selection:bg-[#39f] selection:text-white"
+            )}
+          >
+            {children}
+            <ProgressBar />
+            <Toaster />
+          </body>
+        </html>
+      </QueryProvider>
     </SessionProvider>
   );
 }
