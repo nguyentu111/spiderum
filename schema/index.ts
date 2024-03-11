@@ -41,3 +41,7 @@ export const ResetpasswordSchema = z
       });
     }
   });
+export const CreateSerieSchema = z.object({
+  name: z.string().min(6, "Tên ít nhât 6 kí tự"),
+  description: z.string().optional(),
+});

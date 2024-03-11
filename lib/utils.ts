@@ -1,5 +1,7 @@
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
+import { formatDistanceToNow, parseISO } from "date-fns";
+import { vi } from "date-fns/locale";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -20,3 +22,9 @@ export const cutWords = (words: string, num = 20) => {
 //     }
 //   );
 // };
+export const formatTimeToDistant = (time: string) => {
+  return formatDistanceToNow(parseISO(time), {
+    addSuffix: true,
+    locale: vi,
+  });
+};

@@ -35,3 +35,9 @@ export const apiAuthPrefix = "/api/auth";
  * @type {string}
  */
 export const DEFAULT_LOGIN_REDIRECT = "/";
+
+/**
+ * The default login path
+ * @type {string}
+ */
+export const DEFAULT_LOGIN_PATH = "/login";

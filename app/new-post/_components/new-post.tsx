@@ -4,17 +4,25 @@ import { cn } from "@/lib/utils";
 import { CategoryWithTag } from "@/types";
 import { FormEvent, useRef, useState } from "react";
 import { montserrat, notoSerif } from "../../fonts";
-import { Editor } from "./editor";
+import { Editor, EditorHandle } from "./editor";
 import { NextStep } from "./next-step";
+import { toast } from "sonner";
+import { useMutation } from "@tanstack/react-query";
+import { addNewPost } from "@/lib/queries";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 type Props = {
   categories: CategoryWithTag[];
 };
 
 export const NewPost = ({ categories }: Props) => {
+  const session = useSession();
+  const router = useRouter();
   const refTitle = useRef<HTMLDivElement | null>(null);
-  const refEditor = useRef<any>(null);
+  const refEditor = useRef<EditorHandle>(null);
 
   const [title, setTitle] = useState("");
+  const { mutate } = useMutation({ mutationFn: addNewPost });
   const handleChange = (e: FormEvent<HTMLDivElement>) => {
     setTitle(e.currentTarget.textContent as string);
     if (refTitle.current)
@@ -23,10 +31,31 @@ export const NewPost = ({ categories }: Props) => {
       } else refTitle.current.dataset.placeholder = "Tiêu đề bài viết.......";
   };
   const save = async () => {
-    console.log({
+    const data = {
       ...(await refEditor.current?.getContent()),
-      title,
-    });
+      name: title,
+    };
+    console.log(data);
+    if (!data.thumbnail) {
+      toast.error("Bài viết nên có ít nhất 1 ảnh !");
+      return;
+    }
+    if (data.categories?.length === 0) {
+      toast.error("Bài viết nên thuộc ít nhất 1 danh mục!");
+      return;
+    }
+    mutate(
+      {
+        data,
+        token: session.data?.user.token,
+      },
+      {
+        onSuccess: () => {
+          toast.success("Thêm bài viết thành công");
+          router.push("/");
+        },
+      }
+    );
   };
   return (
     <>

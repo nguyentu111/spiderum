@@ -1,38 +1,33 @@
 import { Button } from "@/components/ui/button";
 import { useChoosingSerie } from "@/global-state";
-import { addSerie, getSeries } from "@/lib/queries";
-import { Serie } from "@/types";
+import { addSeries, getSeries } from "@/lib/queries";
+import { Series as TSeries } from "@/types";
 import { PlusIcon } from "@radix-ui/react-icons";
 import { useSession } from "next-auth/react";
 import { FormEvent, useState } from "react";
-import { useMutation, useQuery, useQueryClient } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 export const Series = () => {
-  const [_, setChoosingSerie] = useChoosingSerie();
+  const [chossingSerie, setChoosingSerie] = useChoosingSerie();
   const { data: session } = useSession();
   const queryClient = useQueryClient();
   const [open, setOpen] = useState(false);
   const [name, setName] = useState("");
   const { mutate } = useMutation({
-    mutationFn: addSerie,
+    mutationFn: addSeries,
   });
-  const { data: series } = useQuery(
-    "series",
-    () => getSeries(session?.user.token!),
-    {
-      initialData: {
-        data: [],
-      },
-    }
-  );
+  const { data: series } = useQuery({
+    queryKey: ["series"],
+    queryFn: () => getSeries(session?.user.username),
+  });
   const handleAddSerie = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (name)
       mutate(
-        { name, token: session?.user.token },
+        { data: { name }, token: session?.user.token },
         {
           onSuccess(data, variables, context) {
-            queryClient.invalidateQueries("series");
+            queryClient.invalidateQueries({ queryKey: ["series"] });
             setName("");
           },
         }
@@ -62,13 +57,16 @@ export const Series = () => {
           <div className="flex items-center gap-4 w-full">
             <div className="w-full">
               <select
-                onChange={(e) => setChoosingSerie(e.target.value)}
+                value={chossingSerie ?? undefined}
+                onChange={(e) =>
+                  setChoosingSerie(e.target.value ? e.target.value : undefined)
+                }
                 className="rounded pt-3 pr-8 pb-3 pl-4 text-14 outline-none w-full appearance-none bg-[rgba(237,242,247,1)]"
               >
-                <option className="" value="">
+                <option className="" value={""}>
                   -- Chọn series --
                 </option>
-                {series.data.map((s: Serie) => (
+                {series?.map((s: TSeries) => (
                   <option key={s.id} value={s.id}>
                     {s.name}
                   </option>

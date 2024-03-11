@@ -2,6 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
+* {
+}
 html,
 body,
 :root {
@@ -10,6 +12,7 @@ body,
 html {
   -webkit-text-size-adjust: 100%;
   overflow-y: scroll;
+  scroll-behavior: smooth;
 }
 body {
   --common-border-color: #ebeef5;
@@ -62,6 +65,8 @@ body {
   line-height: 1.5;
   color: #161616;
   font-size: 1rem;
+  margin: 0 !important;
+  padding: 0 !important;
 }
 @layer base {
   :root {

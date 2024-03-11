@@ -1,6 +1,6 @@
 import { Bookmark } from "@/components/icons/Bookmark";
 import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
+import { cn, formatTimeToDistant } from "@/lib/utils";
 import { Post } from "@/types";
 import Image from "next/image";
 import Link from "next/link";
@@ -16,6 +16,7 @@ export const CardVertical = ({
   post,
   ...rest
 }: CardVerticalProps) => {
+  const category = post.categories[0];
   return (
     <div
       className={cn(
@@ -44,10 +45,10 @@ export const CardVertical = ({
             <div className="flex items-center">
               {showCategory && (
                 <Link
-                  href="/category"
+                  href={`/category/${category.slug}`}
                   className="relative uppercase dot-after text-12  after:absolute after:w-1 after:h-1 after:rounded-full after:top-1/2 after:-translate-y-1/2 after:-right-[0.7rem]  after:bg-[#c4c4c4] mr-4"
                 >
-                  QUAN ĐIỂM - TRANH LUẬN
+                  {category.name}
                 </Link>
               )}
 
@@ -98,7 +99,7 @@ export const CardVertical = ({
             {post.author?.alias}
           </Link>
           <div className="ml-4 text-[12px] text-[#909399] relative before:absolute before:w-1 before:h-1 before:rounded-full before:top-1/2 before:-left-2  before:bg-[#c4c4c4]">
-            6 Th1
+            {formatTimeToDistant(post.created_at)}
           </div>
         </div>
       </div>

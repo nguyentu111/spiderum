@@ -3,12 +3,12 @@ import axios from "axios";
 export const axiosCient = axios.create({
   baseURL: `${process.env.NEXT_PUBLIC_BE_URL}/api`,
 });
-export const fetcher = async (
-  url: string,
-  options?: RequestInit,
-  revalidate?: number | false
-) =>
+export const fetcher = async (url: string, options?: RequestInit) =>
   await fetch(`${process.env.NEXT_PUBLIC_BE_URL}/api` + url, {
     ...options,
-    next: { revalidate: revalidate ?? 0 },
+    next: { revalidate: options?.next?.revalidate ?? 0 },
+    headers: {
+      Accept: "application/json",
+      ...options?.headers,
+    },
   });

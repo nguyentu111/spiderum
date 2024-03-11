@@ -1,6 +1,6 @@
 import { CategoryWithTag, Tag } from "@/types";
 import { atom, useAtom } from "jotai";
-const choosingSerie = atom<string>("");
+const choosingSerie = atom<string | undefined>(undefined);
 const useChoosingSerie = () => useAtom(choosingSerie);
 
 const choosingCategories = atom<CategoryWithTag[]>([]);

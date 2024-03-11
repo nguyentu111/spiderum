@@ -1,14 +1,40 @@
+import { auth } from "@/auth";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Suspense } from "react";
+import { Posts } from "./_component/posts";
+import { SavedPosts } from "./_component/saved-posts";
+import { Series } from "./_component/series";
 
-export const Posts = async () => {
+interface UserPageProps {
+  params: { username: string };
+  searchParams: { [key: string]: string | string[] | undefined };
+}
+export default async function UserPage({
+  params: { username },
+  searchParams,
+}: UserPageProps) {
+  const tab = searchParams.tab;
   return (
-    <div className="mt-2 text-center text-18">
-      Không có gì để xem ở đây cả :&apos;(
-    </div>
+    <>
+      {!tab && (
+        <Suspense fallback={<CSkeleton />}>
+          <Posts username={username} />
+        </Suspense>
+      )}
+      {tab == "series" && (
+        <Suspense fallback={<CSkeleton />}>
+          <Series username={username} />
+        </Suspense>
+      )}
+      {tab == "savedPosts" && <SavedPosts username={username} />}
+      {tab == "comments" && <div>comments</div>}
+      {tab == "followers" && <div>followers</div>}
+      {tab == "following" && <div>following</div>}
+      {tab == "draft" && <div>draft</div>}
+    </>
   );
-};
-Posts.displayName = "Posts";
-Posts.Skeleton = () => {
+}
+const CSkeleton = () => {
   return (
     <div className="">
       <div className="flex gap-4 mb-6">

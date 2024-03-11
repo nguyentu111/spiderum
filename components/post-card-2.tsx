@@ -1,7 +1,7 @@
 import { Bookmark } from "@/components/icons/Bookmark";
 import { ThreeDots } from "@/components/icons/ThreeDots";
 import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
+import { cn, formatTimeToDistant } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
 import { HTMLAttributes } from "react";
@@ -19,6 +19,8 @@ export const CardVertical = ({
   post,
   ...rest
 }: CardVerticalProps) => {
+  const category = post.categories[0];
+
   return (
     <div
       className={cn(
@@ -28,7 +30,7 @@ export const CardVertical = ({
       {...rest}
     >
       <Link
-        href="/post/Cafein-va-Bieu-tinh-o-Phap-2-ly-ca-phe-moi-ngay-va-1-giac-ngu-kem-chat-luong-NTLWezQ8fNoj"
+        href={`/post/${post.slug}`}
         className="md:w-[18rem] relative w-full  pt-[62.5%] md:pt-0"
       >
         <Image
@@ -47,10 +49,10 @@ export const CardVertical = ({
           <div className="flex justify-between">
             <div className="flex items-center">
               <Link
-                href="/category"
+                href={`/category/${category.slug}`}
                 className="hidden lg:block relative uppercase dot-after text-12  after:absolute after:w-1 after:h-1 after:rounded-full after:top-1/2 after:-translate-y-1/2 after:-right-[0.7rem]  after:bg-[#c4c4c4] mr-4"
               >
-                QUAN ĐIỂM - TRANH LUẬN
+                {category.name}
               </Link>
               <div className="flex items-start text-[12px] text-[#909399]">
                 14 phút đọc
@@ -71,7 +73,7 @@ export const CardVertical = ({
           </div>
           <div className="mb-2">
             <div className="mt-2   ">
-              <Link href="/post/Cafein-va-Bieu-tinh-o-Phap-2-ly-ca-phe-moi-ngay-va-1-giac-ngu-kem-chat-luong-NTLWezQ8fNoj">
+              <Link href={`/post/${post.slug}`}>
                 <h2 className="text-sm line-clamp-2 font-semibold mb-2 sm:text-[18px] text-ellipsis overflow-hidden">
                   {post.name}
                 </h2>
@@ -106,20 +108,20 @@ export const CardVertical = ({
             {post.author?.alias}
           </Link>
           <div className="ml-4 text-[12px] text-[#909399] relative before:absolute before:w-1 before:h-1 before:rounded-full before:top-1/2 before:-left-2  before:bg-[#c4c4c4]">
-            6 Th1
+            {formatTimeToDistant(post.created_at)}
           </div>
           <div className="ml-auto flex items-center text-xs text-[#161616]">
             <button className="my-2 text-[rgba(113,128,150,1)]">
               <TriangleUp width={17} height={15} viewBox="0 0 17 15" />
             </button>
-            <span className="ml-1">2</span>
+            <span className="ml-1">{post.like}</span>
             <Link
-              href={`/post/${post.slug}#comment`}
+              href={`/post/${post.slug}#comments`}
               className="my-2 text-[rgba(113,128,150,1)] ml-3"
             >
               <Chat size={17} />
             </Link>
-            <span className="ml-1">12</span>
+            <span className="ml-1">{post.comments_count}</span>
           </div>
         </div>
       </div>

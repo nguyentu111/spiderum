@@ -30,11 +30,6 @@ export const CreateAccountForm = ({
 
   const form = useForm<z.infer<typeof CreateAccountSchema>>({
     resolver: zodResolver(CreateAccountSchema),
-    // defaultValues: {
-    //   password: "",
-    //   alias:"",
-
-    // },
   });
 
   const onSubmit = (values: z.infer<typeof CreateAccountSchema>) => {

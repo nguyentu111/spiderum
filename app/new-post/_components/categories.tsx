@@ -4,7 +4,7 @@ import { useChoosingCategories, useChossingTags } from "@/global-state";
 import { cn } from "@/lib/utils";
 import { CategoryWithTag, Tag } from "@/types";
 import { CheckIcon, PlusIcon } from "@radix-ui/react-icons";
-import { useMemo, useState } from "react";
+import { useState } from "react";
 
 export const Categories = ({
   categories,
@@ -24,6 +24,16 @@ export const Categories = ({
       (cc) => cc.id === category.id
     );
     if (existingIndex !== -1) {
+      const removingTags: Tag[] = [];
+      tempCategories[existingIndex].tags.forEach((tag) => {
+        const removingTag = tempTags.find((t) => t.id === tag.id);
+        if (removingTag) {
+          removingTags.push(removingTag);
+        }
+      });
+      setTempTags([
+        ...tempTags.filter((tag) => !removingTags.some((t) => t.id === tag.id)),
+      ]);
       setTempCategories([
         ...tempCategories.slice(0, existingIndex),
         ...tempCategories.slice(existingIndex + 1),
@@ -42,12 +52,21 @@ export const Categories = ({
       ]);
     } else setTempTags((prev) => [...prev, tag]);
   };
-  const handleSaveChanges = () => {};
+  const handleCancle = () => {
+    setTempCategories([...chossingCategories]);
+    setTempTags([...chossingTags]);
+    setShow(false);
+  };
+  const handleSaveChanges = () => {
+    setChoosingCategories([...tempCategories]);
+    setChoosingTags([...tempTags]);
+    setShow(false);
+  };
   return (
     <>
       <p className="font-bold text-14 mb-2">Chọn danh mục</p>
       {!show &&
-        (tempCategories.length === 0 ? (
+        (chossingCategories.length === 0 ? (
           <Button
             onClick={() => setShow(true)}
             className="text-14 border-dashed border-black"
@@ -61,13 +80,17 @@ export const Categories = ({
             <p className="font-bold text-sm mb-2">Danh mục được chọn</p>
             <div className="flex flex-wrap gap-2 mb-4">
               {chossingCategories.map((categorie) => (
-                <Button variant={"secondary"}>{categorie.name}</Button>
+                <Button key={categorie.id} variant={"secondary"}>
+                  {categorie.name}
+                </Button>
               ))}
             </div>
             <p className="font-bold text-sm mb-2">Các tag được chọn</p>
             <div className="flex flex-wrap gap-2">
               {chossingTags.map((tag) => (
-                <Button variant={"secondary"}>{tag.name}</Button>
+                <Button key={tag.id} variant={"secondary"}>
+                  {tag.name}
+                </Button>
               ))}
             </div>
           </div>
@@ -161,7 +184,7 @@ export const Categories = ({
             <Button
               variant={"secondary"}
               className="rounded"
-              onClick={() => setShow(false)}
+              onClick={handleCancle}
             >
               Hủy
             </Button>

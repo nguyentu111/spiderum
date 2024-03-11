@@ -1,4 +1,4 @@
-import { NewSerieBtn } from "../../[email]/_component/new-serie-btn";
+import { NewSerieBtn } from "../../[email]/_component/add-or-update-series";
 
 export const SeriesSetting = () => {
   return (

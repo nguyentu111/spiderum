@@ -2,7 +2,7 @@
 import { cn } from "@/lib/utils";
 import EditorJS from "@editorjs/editorjs";
 import { notoSerif } from "@/app/fonts";
-import { uploadFile } from "@/actions/uploadFile";
+import { uploadFile, uploadFileByUrl } from "@/actions/uploadFile";
 import {
   forwardRef,
   useEffect,
@@ -10,9 +10,24 @@ import {
   useRef,
   useState,
 } from "react";
-import { useChoosingCategories, useChossingTags } from "@/global-state";
-export const Editor = forwardRef((props, ref: any) => {
+import {
+  useChoosingCategories,
+  useChoosingSerie,
+  useChossingTags,
+} from "@/global-state";
+export type EditorHandle = {
+  getContent: () => Promise<{
+    content: string;
+    thumbnail: string | undefined;
+    categories: string[];
+    tags: string[];
+    series: string | undefined;
+  } | null>;
+};
+interface Props {}
+export const Editor = forwardRef<EditorHandle, Props>((props, ref) => {
   // const [chossingSetrie] = useChossingSerie();
+  const [series] = useChoosingSerie();
   const [categories] = useChoosingCategories();
   const [tags] = useChossingTags();
   const editorRef = useRef<EditorJS>();
@@ -40,17 +55,23 @@ export const Editor = forwardRef((props, ref: any) => {
             class: ImageTool,
             config: {
               uploader: {
-                /**
-                 * Upload file to the server and return an uploaded image data
-                 * @param {File} file - file selected from the device or pasted by drag-n-drop
-                 * @return {Promise.<{success, file: {url}}>}
-                 */
                 async uploadByFile(file: File) {
                   const formData: FormData = new FormData();
                   formData.append("image", file);
                   const rs = (await uploadFile(formData)) as any;
                   // if (featureImg === "") setFeatureImg(rs?.file?.url || "");
                   return rs;
+                },
+                async uploadByUrl(url: string) {
+                  return uploadFileByUrl(url).then((result) => {
+                    console.log(result);
+                    return {
+                      success: 1,
+                      file: {
+                        url: result.secure_url,
+                      },
+                    };
+                  });
                 },
               },
             },
@@ -82,12 +103,13 @@ export const Editor = forwardRef((props, ref: any) => {
       if (editorRef.current) {
         const output = await editorRef.current.save();
         const thumbnail = output.blocks.find((block) => block.type === "image")
-          ?.data.file.url;
+          ?.data.file.url as string | undefined;
         const data = {
-          content: output,
+          content: JSON.stringify(output),
           thumbnail,
-          categories: categories,
-          tags: tags,
+          categories: categories.map((c) => c.id),
+          tags: tags.map((t) => t.id),
+          series: series,
         };
         return data;
       }

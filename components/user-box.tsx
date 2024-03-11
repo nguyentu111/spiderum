@@ -12,7 +12,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Separator } from "@/components/ui/separator";
-import { getCsrfToken, useSession } from "next-auth/react";
+import { useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
@@ -53,7 +53,7 @@ export const UserBox = () => {
               @{user.username}
             </div>
             <Button variant={"secondary"}>
-              <Link href="/user/tunguyen123">Xem trang cá nhân</Link>
+              <Link href={`/user/${user.username}`}>Xem trang cá nhân</Link>
             </Button>
           </div>
         </div>
@@ -61,7 +61,7 @@ export const UserBox = () => {
         <div className="py-2">
           <PopoverClose asChild>
             <Link
-              href="/user/tunguyen123"
+              href={`/user/${user.username}`}
               className="mx-2 p-2 rounded flex items-center cursor-pointer hover:bg-[var(--dropdown-item-hover-bg)]"
             >
               <WirtePost />
@@ -70,7 +70,7 @@ export const UserBox = () => {
           </PopoverClose>
           <PopoverClose asChild>
             <Link
-              href="/user/tunguyen123?tab=draft"
+              href={`/user/${user.username}?tab=draft`}
               className="mx-2 p-2 rounded flex items-center cursor-pointer hover:bg-[var(--dropdown-item-hover-bg)]"
             >
               <Draft />
@@ -80,7 +80,7 @@ export const UserBox = () => {
 
           <PopoverClose asChild>
             <Link
-              href="/user/tunguyen123?tab=savedPosts"
+              href={`/user/${user.username}?tab=savedPosts`}
               className="mx-2 p-2 rounded flex items-center cursor-pointer hover:bg-[var(--dropdown-item-hover-bg)]"
             >
               <Bookmark size={20} viewBox="0 0 500 500" />
@@ -98,13 +98,7 @@ export const UserBox = () => {
         </div>
         <Separator />
         <div className="pt-2">
-          <form
-            // action={async () => {
-            //   "use server";
-            //   await signOut();
-            // }}
-            action={logout}
-          >
+          <form action={logout}>
             <button className="w-[calc(100%-16px)] mx-2 p-2 rounded flex items-center justify-start cursor-pointer hover:bg-[var(--dropdown-item-hover-bg)]">
               <Logout />
               <span className="m-2">Đăng xuất</span>

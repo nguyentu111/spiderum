@@ -1,6 +1,5 @@
-import { getCategories, getSeries } from "@/lib/queries";
+import { getCategories } from "@/lib/queries";
 import { NewPost } from "./_components/new-post";
-import { auth } from "@/auth";
 
 export const dynamic = "force-static";
 
