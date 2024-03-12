@@ -1,15 +1,23 @@
-import { Bookmark } from "@/components/icons/Bookmark";
-import { ThreeDots } from "@/components/icons/ThreeDots";
-import { Button } from "@/components/ui/button";
-import { cn, formatTimeToDistant } from "@/lib/utils";
+"use client";
+import {
+  calculateReadTimeFromContent,
+  cn,
+  formatTimeToDistant,
+} from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
 import { HTMLAttributes } from "react";
 import { TriangleUp } from "./icons/TriangleUp";
 import { Chat } from "./icons/Chat";
 import { Post } from "@/types";
+import { SavePost, SavePostProps } from "./save-post";
+import { Vote, VoteCallbackProps } from "./vote";
+import { useOptimisticPost } from "@/hooks/use-optimistic-post";
 
-interface CardVerticalProps extends HTMLAttributes<HTMLDivElement> {
+interface CardVerticalProps
+  extends HTMLAttributes<HTMLDivElement>,
+    SavePostProps,
+    VoteCallbackProps {
   showCategory?: boolean;
   post: Post;
 }
@@ -17,8 +25,22 @@ export const CardVertical = ({
   showCategory,
   className,
   post,
+  onSave,
+  onSaved,
+  onUnsave,
+  onUnsaved,
+  onLike,
+  onLiked,
+  onVote,
+  onUnvote,
+  onUnvoted,
+  onDislike,
+  onDisliked,
+  onVoted,
   ...rest
 }: CardVerticalProps) => {
+  const { dispatch, optimisticPost } = useOptimisticPost(post);
+
   const category = post.categories[0];
 
   return (
@@ -40,11 +62,11 @@ export const CardVertical = ({
           }
           alt=""
           fill
-          sizes="(min-width: 1192px) 3 ,(min-width: 768px) 50vw,(min-width: ) , 25vw"
+          sizes="(min-width: 1192px) 30vw ,(min-width: 768px) 50vw,(min-width: ) , 25vw"
           className="rounded object-cover"
         />
       </Link>
-      <div>
+      <div className="w-full">
         <div className="flex flex-col">
           <div className="flex justify-between">
             <div className="flex items-center">
@@ -55,21 +77,18 @@ export const CardVertical = ({
                 {category.name}
               </Link>
               <div className="flex items-start text-[12px] text-[#909399]">
-                14 phút đọc
+                {calculateReadTimeFromContent(post.content)} phút đọc
               </div>
             </div>
-            <Button
-              variant={"ghost"}
-              className="flex items-center h-[25px] p-0"
-            >
-              <Bookmark size={25} viewBox="0 0 500 500" />
-              {/* <ThreeDots
-              width={4}
-              height={16}
-              viewBox="0 0 4 16"
-              className="w-4 cursor-pointer h-full"
-            /> */}
-            </Button>
+            <SavePost
+              className="md:my-0"
+              dispatch={dispatch}
+              post={optimisticPost}
+              onSaved={onSaved}
+              onUnsaved={onUnsaved}
+              onSave={onSave}
+              onUnsave={onUnsave}
+            />
           </div>
           <div className="mb-2">
             <div className="mt-2   ">
@@ -80,10 +99,7 @@ export const CardVertical = ({
               </Link>
             </div>
           </div>
-          <div className="text-sm mb-2">
-            Mất cân bằng trong phát triển là điều rất dễ xảy ra, vậy mất cân
-            bằng như thế nào để vẫn lành mạnh? Mình muốn bàn...
-          </div>
+          <div className="text-sm mb-2">{post.description}</div>
         </div>
         <div className="flex items-center">
           <Link
@@ -111,10 +127,19 @@ export const CardVertical = ({
             {formatTimeToDistant(post.created_at)}
           </div>
           <div className="ml-auto flex items-center text-xs text-[#161616]">
-            <button className="my-2 text-[rgba(113,128,150,1)]">
-              <TriangleUp width={17} height={15} viewBox="0 0 17 15" />
-            </button>
-            <span className="ml-1">{post.like}</span>
+            <Vote
+              dispatch={dispatch}
+              post={optimisticPost}
+              type="half-horizontal"
+              onLike={onLike}
+              onLiked={onLiked}
+              onVote={onVote}
+              onUnvote={onUnvote}
+              onUnvoted={onUnvoted}
+              onDislike={onDislike}
+              onDisliked={onDisliked}
+              onVoted={onVoted}
+            />
             <Link
               href={`/post/${post.slug}#comments`}
               className="my-2 text-[rgba(113,128,150,1)] ml-3"

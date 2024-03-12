@@ -4,12 +4,11 @@ import { ChatSquare } from "@/components/icons/ChatSquare";
 import { Share } from "@/components/icons/Share";
 import { Post } from "@/types";
 import Link from "next/link";
-import { Vote } from "./vote";
+import { Vote } from "../../../../../components/vote";
 import Image from "next/image";
 import { UserPlus } from "@/components/icons/UserPlus";
-import { SavePost } from "./save-post";
-import { Dispatch } from "react";
-import { useOptimisticPost } from "@/hooks/useOptimisticPost";
+import { SavePost } from "@/components/save-post";
+import { useOptimisticPost } from "@/hooks/use-optimistic-post";
 export const Stickybar = ({
   post,
   dispatch,

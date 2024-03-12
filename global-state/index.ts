@@ -9,4 +9,12 @@ const useChoosingCategories = () => useAtom(choosingCategories);
 const chossingTags = atom<Tag[]>([]);
 const useChossingTags = () => useAtom(chossingTags);
 
-export { useChoosingSerie, useChoosingCategories, useChossingTags };
+const postDescription = atom<string>("");
+const usePostDescription = () => useAtom(postDescription);
+
+export {
+  useChoosingSerie,
+  useChoosingCategories,
+  useChossingTags,
+  usePostDescription,
+};

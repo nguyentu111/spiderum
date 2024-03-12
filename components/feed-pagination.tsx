@@ -1,18 +1,23 @@
+"use client";
 import { cn } from "@/lib/utils";
+import { FeedSort, PaginatedReponse, Post } from "@/types";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 
 export const FeedPagination = ({
-  searchParams,
+  paginationData,
 }: {
-  searchParams: { [key: string]: string | string[] | undefined };
+  paginationData: PaginatedReponse<Post>["data"];
 }) => {
-  const sort = searchParams.sort as string;
-  const page_idx = Number.parseInt(searchParams.page_idx as string) ?? 1;
+  const sort = useSearchParams().get("sort") as FeedSort;
+  const page_idx =
+    Number.parseInt(useSearchParams().get("page_idx") as string) ?? 1;
 
   return (
-    <div className="pt-[15px] pb-[45px]">
+    <div className="pt-[15px] pb-[45px] flex justify-center">
       <ul className="flex flex-wrap items-center">
-        {Array.from({ length: 10 }).map((a, i) => {
+        {}
+        {Array.from({ length: paginationData.last_page }).map((a, i) => {
           return (
             <li key={i}>
               <Link
@@ -29,14 +34,16 @@ export const FeedPagination = ({
             </li>
           );
         })}
-        <li>
-          <Link
-            href="/"
-            className="mx-2 px-2.5 py-0.5 hover:bg-[#e6e6e6] min-w-10 min-h-10  inline-block text-center leading-8"
-          >
-            {"Tiếp >>"}
-          </Link>
-        </li>
+        {page_idx !== paginationData.last_page && (
+          <li>
+            <Link
+              href={`/?sort=${sort}&page_idx=${page_idx + 1}`}
+              className="mx-2 px-2.5 py-0.5 hover:bg-[#e6e6e6] min-w-10 min-h-10  inline-block text-center leading-8"
+            >
+              {"Tiếp >>"}
+            </Link>
+          </li>
+        )}
       </ul>
     </div>
   );

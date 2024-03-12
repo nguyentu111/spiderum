@@ -1,6 +1,7 @@
 import { Fire } from "@/components/icons/Fire";
+import { FeedSort } from "@/types";
 
-export const feedsort = [
+export const feedsort: { value: FeedSort; label: string }[] = [
   {
     value: "hot",
     label: "Dành cho bạn",

@@ -1,3 +1,4 @@
+export type FeedSort = "hot" | "controversial" | "new" | "follow" | "top";
 export interface User {
   id: string;
   alias: string | null;
@@ -40,21 +41,20 @@ export interface Post {
   id: string;
   name: string;
   slug: string;
+  description: string;
   thumbnail: null;
   content: string;
-  like: number;
   view: number;
   is_shown: number;
   author_id: string;
   created_at: string;
   updated_at: string;
   author?: User;
-  comments?: CommentWithUserInfo[];
   categories: Category[];
-  likes: User[];
-  dislikes: User[];
   comments_count: number;
   is_saved: boolean;
+  point: number;
+  user_action: -1 | 0 | 1;
 }
 export interface Tag {
   id: string;

@@ -12,9 +12,9 @@ import Image from "next/image";
 import { Comments } from "./comments";
 import { PostContent } from "./post-content";
 import { Stickybar } from "./sticky-bar";
-import { Vote } from "./vote";
-import { useOptimisticPost } from "@/hooks/useOptimisticPost";
-import { SavePost } from "./save-post";
+import { Vote } from "../../../../../components/vote";
+import { useOptimisticPost } from "@/hooks/use-optimistic-post";
+import { SavePost } from "../../../../../components/save-post";
 type Props = {
   post: TPost;
 };
@@ -41,13 +41,11 @@ export const Post = ({ post }: Props) => {
         >
           {post.name}
         </h1>
-        <div className="my-1">
+        {/* <div className="my-1">
           <p className="italic text-16 text-gray-500 break-words">
-            {/* Từ việc cô á hậu hiến kế cho nước nhà tới chuyện các chị em thoải
-            mái lên tiktok để đòi hỏi và thể hiện cái tôi. */}
             {optimisticPost.like}
           </p>
-        </div>
+        </div> */}
         <div className="mt-6 flex items-center">
           <Image
             src={optimisticPost.author?.avatar_url as string}

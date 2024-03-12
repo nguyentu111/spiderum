@@ -5,16 +5,19 @@ import {
   Popover,
   PopoverContent,
   PopoverTrigger,
+  PopoverClose,
 } from "@/components/ui/popover";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 export const Menu = () => {
   const router = useRouter();
   const { data: session } = useSession();
   const user = session?.user!;
+  const [open, setOpen] = useState(false);
   return (
-    <Popover>
+    <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
         <button className="px-2 h-full flex items-center py-2">
           <ThreeDots className="text-gray-500" />
@@ -27,7 +30,10 @@ export const Menu = () => {
         alignOffset={0}
       >
         <Button
-          onClick={() => router.push(`/user/${user.username}?tab=savedPosts`)}
+          onClick={() => {
+            router.push(`/user/${user.username}?tab=savedPosts`);
+            setOpen(false);
+          }}
           className="md:hidden cursor-pointer p-4 w-full justify-start font-normal h-auto hover:text-gray-900 hover:bg-gray-100 text-gray-700 rounded-none"
           variant={"ghost"}
           asChild
@@ -35,7 +41,10 @@ export const Menu = () => {
           <div>Đã lưu</div>
         </Button>
         <Button
-          onClick={() => router.push(`/user/${user.username}?tab=comments`)}
+          onClick={() => {
+            router.push(`/user/${user.username}?tab=comments`);
+            setOpen(false);
+          }}
           className="cursor-pointer p-4 w-full flex justify-start font-normal h-auto hover:text-gray-900 hover:bg-gray-100 text-gray-700 rounded-none"
           variant={"ghost"}
           asChild
@@ -44,7 +53,10 @@ export const Menu = () => {
         </Button>
 
         <Button
-          onClick={() => router.push(`/user/${user.username}?tab=followers`)}
+          onClick={() => {
+            router.push(`/user/${user.username}?tab=followers`);
+            setOpen(false);
+          }}
           className="cursor-pointer p-4 w-full flex justify-start font-normal h-auto hover:text-gray-900 hover:bg-gray-100 text-gray-700 rounded-none"
           variant={"ghost"}
           asChild
@@ -52,7 +64,10 @@ export const Menu = () => {
           <div>Người theo dõi</div>
         </Button>
         <Button
-          onClick={() => router.push(`/user/${user.username}?tab=following`)}
+          onClick={() => {
+            router.push(`/user/${user.username}?tab=following`);
+            setOpen(false);
+          }}
           className="cursor-pointer p-4 w-full flex justify-start font-normal h-auto hover:text-gray-900 hover:bg-gray-100 text-gray-700 rounded-none"
           variant={"ghost"}
           asChild
@@ -60,7 +75,10 @@ export const Menu = () => {
           <div>Đang theo dõi</div>
         </Button>
         <Button
-          onClick={() => router.push(`/user/${user.username}?tab=draft`)}
+          onClick={() => {
+            router.push(`/user/${user.username}?tab=draft`);
+            setOpen(false);
+          }}
           className="cursor-pointer p-4 w-full flex justify-start font-normal h-auto hover:text-gray-900 hover:bg-gray-100 text-gray-700 rounded-none"
           variant={"ghost"}
           asChild

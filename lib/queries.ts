@@ -1,23 +1,30 @@
-import axios from "axios";
+import { FeedSort, Series } from "@/types";
 import { axiosCient, fetcher } from "./fetcher";
-import { feedsortVals } from "@/constants/feed";
-import { PaginatedReponse, Post, Series } from "@/types";
 export const getNewFeed = async ({
   page,
   per_page,
   sort,
+  token,
 }: {
-  sort: string;
+  sort: FeedSort;
   per_page: number;
   page: number;
+  token?: string;
 }) => {
   const rs = await fetcher(
-    `/new-feed?sort=${sort}&per_page=${per_page}&page=${page}`
+    `/new-feed?sort=${sort}&per_page=${per_page}&page=${page}`,
+    {
+      next: { revalidate: 0 },
+      headers: { Authorization: `Bearer ${token}`, Accept: "application/json" },
+    }
   );
   return await rs.json();
 };
-export const getTopView = async () => {
-  const rs = await fetcher(`/top-view`);
+export const getTopView = async (token?: string) => {
+  const rs = await fetcher(`/top-view`, {
+    next: { revalidate: 0 },
+    headers: { Authorization: `Bearer ${token}`, Accept: "application/json" },
+  });
   return await rs.json();
 };
 export const getCategories = async () => {
@@ -180,13 +187,18 @@ export const votePost = async ({
 export const getUserPosts = async ({
   username,
   series,
+  token,
 }: {
   username: string;
   series?: string;
+  token?: string;
 }) => {
   const rs = await fetcher(
     `/posts?username=${username}${series ? `&series=${series}` : ""}`,
-    { next: { tags: ["posts", "username"] } }
+    {
+      next: { revalidate: 0 },
+      headers: { Authorization: `Bearer ${token}`, Accept: "application/json" },
+    }
   );
   return rs;
 };
@@ -197,17 +209,29 @@ export const getUser = async (usernameOrId: string) => {
 export const savePost = async ({
   slug,
   token,
-  action,
 }: {
   slug: string;
   token: string;
-  action: 0 | 1;
 }) => {
   const rs = await axiosCient.post(
-    `/save-posts/${slug}`,
+    `/posts/save/${slug}`,
+    {},
     {
-      action,
-    },
+      headers: { Authorization: `Bearer ${token}`, Accept: "application/json" },
+    }
+  );
+  return rs;
+};
+export const unsavePost = async ({
+  slug,
+  token,
+}: {
+  slug: string;
+  token: string;
+}) => {
+  const rs = await axiosCient.post(
+    `/posts/unsave/${slug}`,
+    {},
     {
       headers: { Authorization: `Bearer ${token}`, Accept: "application/json" },
     }
@@ -215,7 +239,13 @@ export const savePost = async ({
   return rs;
 };
 export const getSavedPosts = async (token: string) => {
-  const rs = await fetcher(`/save-posts`, {
+  const rs = await axiosCient.get(`/saved-posts`, {
+    headers: { Authorization: `Bearer ${token}`, Accept: "application/json" },
+  });
+  return rs.data?.data;
+};
+export const getSavedPostsServer = async (token: string) => {
+  const rs = await fetcher(`/saved-posts`, {
     headers: { Authorization: `Bearer ${token}`, Accept: "application/json" },
     next: { revalidate: 0 },
   });

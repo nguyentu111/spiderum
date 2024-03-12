@@ -1,6 +1,6 @@
 "use client";
 import { cn } from "@/lib/utils";
-import EditorJS from "@editorjs/editorjs";
+import EditorJS, { OutputData } from "@editorjs/editorjs";
 import { notoSerif } from "@/app/fonts";
 import { uploadFile, uploadFileByUrl } from "@/actions/uploadFile";
 import {
@@ -17,7 +17,7 @@ import {
 } from "@/global-state";
 export type EditorHandle = {
   getContent: () => Promise<{
-    content: string;
+    content: OutputData;
     thumbnail: string | undefined;
     categories: string[];
     tags: string[];
@@ -105,7 +105,7 @@ export const Editor = forwardRef<EditorHandle, Props>((props, ref) => {
         const thumbnail = output.blocks.find((block) => block.type === "image")
           ?.data.file.url as string | undefined;
         const data = {
-          content: JSON.stringify(output),
+          content: output,
           thumbnail,
           categories: categories.map((c) => c.id),
           tags: tags.map((t) => t.id),

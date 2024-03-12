@@ -26,7 +26,11 @@ export default async function UserPage({
           <Series username={username} />
         </Suspense>
       )}
-      {tab == "savedPosts" && <SavedPosts username={username} />}
+      {tab == "savedPosts" && (
+        <Suspense fallback={<CSkeleton />}>
+          <SavedPosts username={username} />
+        </Suspense>
+      )}
       {tab == "comments" && <div>comments</div>}
       {tab == "followers" && <div>followers</div>}
       {tab == "following" && <div>following</div>}

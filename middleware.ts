@@ -9,6 +9,7 @@ import {
   authRoutes,
   publicRoutes,
 } from "./routes";
+import { FeedSort } from "./types";
 // This function can be marked `async` if using `await` inside
 function rewriteUrl(req: NextRequest) {
   //   // if(request.nextUrl.pathname === '/' && !request.nextUrl.searchParams. )
@@ -25,7 +26,7 @@ export default auth((req) => {
   const isAuthRoute = authRoutes.includes(nextUrl.pathname);
 
   if (req.nextUrl.pathname === "/") {
-    const sort = req.nextUrl.searchParams.get("sort");
+    const sort = req.nextUrl.searchParams.get("sort") as FeedSort;
     const page = req.nextUrl.searchParams.get("page_idx");
     if (!sort || !feedsortVals.includes(sort)) {
       return NextResponse.redirect(new URL(`/?sort=hot&page_idx=1`, req.url));

@@ -1,12 +1,21 @@
-import { Bookmark } from "@/components/icons/Bookmark";
-import { Button } from "@/components/ui/button";
-import { cn, formatTimeToDistant } from "@/lib/utils";
+"use client";
+import {
+  calculateReadTimeFromContent,
+  cn,
+  formatTimeToDistant,
+} from "@/lib/utils";
 import { Post } from "@/types";
 import Image from "next/image";
 import Link from "next/link";
 import { HTMLAttributes } from "react";
+import { SavePost, SavePostProps } from "./save-post";
+import { useOptimisticPost } from "@/hooks/use-optimistic-post";
+import { VoteCallbackProps } from "./vote";
 
-interface CardVerticalProps extends HTMLAttributes<HTMLDivElement> {
+interface CardVerticalProps
+  extends HTMLAttributes<HTMLDivElement>,
+    SavePostProps,
+    VoteCallbackProps {
   showCategory?: boolean;
   post: Post;
 }
@@ -14,8 +23,21 @@ export const CardVertical = ({
   showCategory,
   className,
   post,
+  onSave,
+  onSaved,
+  onUnsave,
+  onUnsaved,
+  onLike,
+  onLiked,
+  onVote,
+  onUnvote,
+  onUnvoted,
+  onDislike,
+  onDisliked,
+  onVoted,
   ...rest
 }: CardVerticalProps) => {
+  const { dispatch, optimisticPost } = useOptimisticPost(post);
   const category = post.categories[0];
   return (
     <div
@@ -37,6 +59,7 @@ export const CardVertical = ({
           alt=""
           fill
           className="rounded object-cover"
+          sizes="(min-width: 1192px) 30vw ,(min-width: 768px) 50vw,(min-width: ) , 25vw"
         />
       </Link>
       <div className="flex-shrink">
@@ -53,26 +76,26 @@ export const CardVertical = ({
               )}
 
               <div className="flex items-start text-[12px] text-[#909399]">
-                14 phút đọc
+                {calculateReadTimeFromContent(post.content)} phút đọc
               </div>
             </div>
-            <Button
-              variant={"ghost"}
-              className="flex items-center h-[25px] p-0"
-            >
-              <Bookmark size={20} viewBox="0 0 18 24" />
-              {/* <ThreeDots
-              width={4}
-              height={16}
-              viewBox="0 0 4 16"
-              className="w-4 cursor-pointer h-full"
-            /> */}
-            </Button>
+            {/* <SavePost
+              post={optimisticPost}
+              /> */}
+            <SavePost
+              className="my-2"
+              dispatch={dispatch}
+              post={optimisticPost}
+              onSaved={onSaved}
+              onUnsaved={onUnsaved}
+              onSave={onSave}
+              onUnsave={onUnsave}
+            />
           </div>
           <div className="mb-2">
             <div className="mt-2   ">
               <Link href={`/post/${post.slug}`}>
-                <h2 className="text-sm line-clamp-2 font-semibold mb-2 sm:text-[18px] text-ellipsis overflow-hidden">
+                <h2 className="h-10 text-sm line-clamp-2 font-semibold mb-2 sm:text-[18px] text-ellipsis overflow-hidden">
                   {post.name}
                 </h2>
               </Link>

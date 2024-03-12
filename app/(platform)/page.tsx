@@ -8,15 +8,26 @@ import { CardVertical } from "../../components/post-card-1";
 import { Banner } from "./_components/banner";
 import { Categories } from "./_components/categories";
 import { getNewFeed, getTopView } from "@/lib/queries";
+import { auth } from "@/auth";
+import { FeedSort } from "@/types";
+import { redirect } from "next/navigation";
 
+export const dynamic = "force-dynamic";
 export default async function HomePage({
   searchParams: { page_idx, sort },
 }: {
-  searchParams: { sort: string; page_idx: number };
+  searchParams: { sort: FeedSort; page_idx: number };
 }) {
+  const session = await auth();
+  if (!session?.user && sort === "follow") redirect("/?sort=top&page_idx=1");
   const [topViewPosts, newFeedPosts] = await Promise.all([
-    getTopView(),
-    getNewFeed({ page: page_idx, per_page: 10, sort }),
+    getTopView(session?.user.token),
+    getNewFeed({
+      page: page_idx,
+      per_page: 5,
+      sort,
+      token: session?.user.token,
+    }),
   ]);
   return (
     <div className="pb-8">
@@ -24,7 +35,7 @@ export default async function HomePage({
       <PopularBlogs posts={topViewPosts.data} />
       <Container className="flex  flex-col-reverse lg:grid lg:grid-cols-3 gap-x-14 mt-6">
         <div className="lg:col-span-2">
-          <Feed sort={sort} posts={newFeedPosts.data.data} />
+          <Feed sort={sort} postsPaginated={newFeedPosts} />
         </div>
         <div>
           <Categories />

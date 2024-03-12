@@ -2,9 +2,12 @@ import { auth } from "@/auth";
 import { CardVertical } from "@/components/post-card-1";
 import { getUserPosts } from "@/lib/queries";
 import { PaginatedReponse, Post } from "@/types";
+import { unstable_noStore as noStore } from "next/cache";
 
 export const Posts = async ({ username }: { username: string }) => {
-  const rs = await getUserPosts({ username });
+  noStore();
+  const session = await auth();
+  const rs = await getUserPosts({ username, token: session?.user.token });
   const userPosts = (await rs.json()) as PaginatedReponse<Post>;
   const posts = userPosts.data.data;
   if (userPosts.data.data.length === 0)
@@ -16,7 +19,7 @@ export const Posts = async ({ username }: { username: string }) => {
   return (
     <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-2 md:gap-4">
       {posts.map((p) => (
-        <CardVertical post={p} />
+        <CardVertical post={p} key={p.id} />
       ))}
     </div>
   );

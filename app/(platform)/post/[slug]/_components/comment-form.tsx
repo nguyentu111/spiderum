@@ -60,6 +60,7 @@ export const CommentForm = ({ post }: { post: Post }) => {
               ref.current.dataset.placeholder =
                 "Cảm nghĩ của bạn về bài viết này...";
             queryClient.invalidateQueries({ queryKey: ["comments", post.id] });
+            router.refresh();
           },
           onError() {
             toast.error("Server gặp lỗi, vui lòng thử lại sau");

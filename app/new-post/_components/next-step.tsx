@@ -13,6 +13,7 @@ import { Categories } from "./categories";
 import { Series } from "./series";
 import { useSession } from "next-auth/react";
 import { ReloadIcon } from "@radix-ui/react-icons";
+import { usePostDescription } from "@/global-state";
 
 export function NextStep({
   categories,
@@ -21,6 +22,7 @@ export function NextStep({
   categories: CategoryWithTag[];
   save: () => Promise<void>;
 }) {
+  const [des, setDes] = usePostDescription();
   const session = useSession();
   if (!session.data?.user)
     return (
@@ -37,12 +39,16 @@ export function NextStep({
       </DialogTrigger>
       <DialogContent className="">
         <div className="flex flex-col items-start justify-center ">
-          {/* <div className="py-3 w-full">
+          <div className="py-3 w-full">
             <p className="font-bold text-14 mb-2">
               Mô tả bài viết <em className="text-gray-500">(không bắt buộc)</em>
             </p>
-            <textarea className="w-full rounded outline-none border px-3 py-2 text-14 resize-none h-[70px]"></textarea>
-          </div> */}
+            <textarea
+              value={des}
+              onChange={(e) => setDes(e.target.value)}
+              className="w-full rounded outline-none border px-3 py-2 text-14 resize-none h-[70px]"
+            ></textarea>
+          </div>
           <div className="py-3 w-full">
             <Series />
           </div>

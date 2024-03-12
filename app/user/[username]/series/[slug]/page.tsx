@@ -32,7 +32,7 @@ const page = async ({ params: { username, slug } }: Props) => {
       )}
       <div className="flex flex-col gap-4">
         {seriesData.data.posts.map((p) => (
-          <CardVertical post={p} />
+          <CardVertical post={p} key={p.id} />
         ))}
       </div>
     </div>

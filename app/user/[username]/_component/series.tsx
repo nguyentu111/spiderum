@@ -8,13 +8,15 @@ import { auth } from "@/auth";
 import { notFound } from "next/navigation";
 import { fetcher } from "@/lib/fetcher";
 import { Series as TSeries } from "@/types";
+import { unstable_noStore as noStore } from "next/cache";
 
 export const Series = async ({ username }: { username: string }) => {
+  noStore();
   // const session = await auth();
   const [postsRs, seriesRs] = await Promise.all([
     getUserPosts({ username }),
     fetcher(`/series?username=${username}`, {
-      next: { tags: ["series", username] },
+      next: { tags: ["series", username], revalidate: 0 },
     }),
   ]);
   if (postsRs.status === 404 || seriesRs.status === 404) return notFound();
