@@ -8,15 +8,19 @@ import {
 } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
+import { Category, CategoryWithTag, Post } from "@/types";
 import { HTMLAttributes } from "react";
 
-interface SidebarProps extends HTMLAttributes<HTMLDivElement> {}
-export const Sidebar = ({ className }: SidebarProps) => {
+interface SidebarProps extends HTMLAttributes<HTMLDivElement> {
+  category: CategoryWithTag;
+  posts: Post[];
+}
+export const Sidebar = ({ className, category, posts }: SidebarProps) => {
   return (
     <div className={cn(className)}>
       <Card className="h-fit mb-6">
-        <CardHeader className="text-24 font-bold">
-          QUAN ĐIỂM - TRANH LUẬN
+        <CardHeader className="text-24 font-bold uppercase">
+          {category.name}
         </CardHeader>
         <div className="px-6">
           <CardTitle>Nội dung cho phép</CardTitle>
@@ -51,9 +55,9 @@ export const Sidebar = ({ className }: SidebarProps) => {
           CÓ THỂ BẠN QUAN TÂM
         </CardHeader>
         <CardContent>
-          <CardMinimize />
-          <CardMinimize />
-          <CardMinimize />
+          {posts.map((p) => (
+            <CardMinimize key={p.id} post={p} />
+          ))}
         </CardContent>
         <Separator />
       </Card>

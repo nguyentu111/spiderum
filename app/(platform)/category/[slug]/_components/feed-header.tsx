@@ -3,9 +3,17 @@ import { Fire } from "@/components/icons/Fire";
 import { Flag } from "@/components/icons/Flag";
 import { PinWheel } from "@/components/icons/PinWheel";
 import { Star } from "@/components/icons/Star";
+import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { FeedSort } from "@/types";
 import Link from "next/link";
-export const categoryFeedsort = [
+import { useSearchParams } from "next/navigation";
+import { Dispatch, ReactNode, SetStateAction } from "react";
+export const categoryFeedsort: {
+  value: FeedSort;
+  label: string;
+  icon: ReactNode;
+}[] = [
   {
     value: "hot",
     label: "Thịnh hành",
@@ -30,10 +38,12 @@ export const categoryFeedsort = [
 
 export const FeedHeader = ({
   slug,
-  searchParams,
+  sort,
+  setSort,
 }: {
   slug: string;
-  searchParams: { [key: string]: string | string[] | undefined };
+  sort: FeedSort;
+  setSort: Dispatch<SetStateAction<FeedSort>>;
 }) => {
   return (
     <>
@@ -44,20 +54,20 @@ export const FeedHeader = ({
           </div>
           <div className=" items-center hidden lg:flex">
             {categoryFeedsort.map((s) => (
-              <Link
+              <Button
+                onClick={() => setSort(s.value)}
+                variant={"ghost"}
                 key={s.value}
-                href={`/category/${slug}?sort=${s.value}&page_idx=1`}
                 className={cn(
                   "flex items-center px-3",
-                  s.value === searchParams?.sort
+                  s.value === sort
                     ? "border-b-[3px] border-blue-500 text-blue-500"
                     : "text-[#969696]"
                 )}
-                scroll={false}
               >
                 {s.icon}
                 <span className="ml-2">{s.label}</span>
-              </Link>
+              </Button>
             ))}
           </div>
         </div>

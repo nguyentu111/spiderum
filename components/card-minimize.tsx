@@ -1,30 +1,34 @@
+import { formatTimeToDistant } from "@/lib/utils";
+import { Post } from "@/types";
 import Image from "next/image";
 import Link from "next/link";
 
-export const CardMinimize = () => {
+export const CardMinimize = ({ post }: { post: Post }) => {
   return (
     <div className="flex items-center gap-2.5 mb-5">
       <Image
-        src="https://images.spiderum.com/sp-xs-avatar/f73d05604cbf11ee9289cdfd88096d11.png"
+        src={post.thumbnail!}
         alt=""
         width={48}
         height={48}
         className="w-12 h-12 rounded-full"
       />
       <div>
-        <Link className="" href="/">
+        <Link className="" href={`/post/${post.slug}`}>
           <h1 className="text-14 line-clamp-2 text-ellipsis font-semibold">
-            Những cái chết vẫn chưa đủ để thức tỉnh cả một thế hệ?
+            {post.name}
           </h1>
         </Link>
         <div className="flex items-center mt-1">
           <Link
-            href={""}
+            href={`/user/${post.author?.username}`}
             className="text-blue-500 hover:text-blue-600 text-12 font-semibold"
           >
-            girlintheair
+            {post.author?.alias}
           </Link>
-          <span className="text-12 text-gray-400 ml-2">- 4 tháng 4 2022</span>
+          <span className="text-12 text-gray-400 ml-2">
+            {formatTimeToDistant(post.created_at)}
+          </span>
         </div>
       </div>
     </div>

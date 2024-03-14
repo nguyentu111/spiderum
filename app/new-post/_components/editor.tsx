@@ -4,6 +4,8 @@ import EditorJS, { OutputData } from "@editorjs/editorjs";
 import { notoSerif } from "@/app/fonts";
 import { uploadFile, uploadFileByUrl } from "@/actions/uploadFile";
 import {
+  Dispatch,
+  SetStateAction,
   forwardRef,
   useEffect,
   useImperativeHandle,
@@ -24,8 +26,10 @@ export type EditorHandle = {
     series: string | undefined;
   } | null>;
 };
-interface Props {}
-export const Editor = forwardRef<EditorHandle, Props>((props, ref) => {
+interface Props {
+  onChange?: () => void;
+}
+export const Editor = forwardRef<EditorHandle, Props>(({ onChange }, ref) => {
   // const [chossingSetrie] = useChossingSerie();
   const [series] = useChoosingSerie();
   const [categories] = useChoosingCategories();
@@ -78,6 +82,7 @@ export const Editor = forwardRef<EditorHandle, Props>((props, ref) => {
           },
         },
         placeholder: "Nội dung bài viết",
+        onChange,
       });
       editorRef.current = editor;
     }

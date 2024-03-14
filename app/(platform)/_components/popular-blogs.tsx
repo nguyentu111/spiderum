@@ -1,7 +1,5 @@
 import { Container } from "@/components/container";
-import Link from "next/link";
-import { CardVertical } from "../../../components/post-card-1";
-import { ArrowRightIcon } from "@radix-ui/react-icons";
+import { CardVertical } from "@/components/post-card-1";
 import { Post } from "@/types";
 
 export const PopularBlogs = ({ posts }: { posts: Post[] }) => {

@@ -3,8 +3,16 @@ import { redirect, useRouter } from "next/navigation";
 import { feedsort } from "@/constants/feed";
 import { cn } from "@/lib/utils";
 import { useSession } from "next-auth/react";
-export const FeedTabs = ({ sort }: { sort: string }) => {
-  const router = useRouter();
+import { Dispatch } from "react";
+import { SetStateAction } from "jotai";
+import { FeedSort } from "@/types";
+export const FeedTabs = ({
+  sort,
+  setSort,
+}: {
+  sort: string;
+  setSort: Dispatch<SetStateAction<FeedSort>>;
+}) => {
   const session = useSession();
   return (
     <div className="mb-6 w-full overflow-x-auto border-b-[var(--filter-border-color)] border-b-[1px] flex items-center">
@@ -17,9 +25,7 @@ export const FeedTabs = ({ sort }: { sort: string }) => {
               "uppercase md:mr-5 px-2 py-2 text-[14px] font-medium whitespace-nowrap",
               f.value === sort && "border-b-[3px] border-[#3398d4]"
             )}
-            onClick={() =>
-              router.push(`/?sort=${f.value}&page_idx=1`, { scroll: false })
-            }
+            onClick={() => setSort(f.value)}
           >
             {f.label}
           </button>

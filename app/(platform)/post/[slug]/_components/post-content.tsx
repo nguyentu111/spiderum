@@ -30,6 +30,7 @@ export const PostContent = ({ data }: { data: string }) => {
             return (
               <div key={block.id} className="w-full relative overflow-hidden">
                 <Image
+                  priority
                   src={block.data.file.url as string}
                   alt={block.data.caption}
                   className="object-contain"

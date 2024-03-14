@@ -3,18 +3,24 @@ import { SerieCard } from "./series-card";
 import { AddOrUpdateSeries } from "./add-or-update-series";
 import { PlusIcon } from "@radix-ui/react-icons";
 import { Skeleton } from "@/components/ui/skeleton";
-import { getSeries, getUserPosts } from "@/lib/queries";
+import { getSeries, getPosts } from "@/lib/queries";
 import { auth } from "@/auth";
 import { notFound } from "next/navigation";
 import { fetcher } from "@/lib/fetcher";
 import { Series as TSeries } from "@/types";
 import { unstable_noStore as noStore } from "next/cache";
 
-export const Series = async ({ username }: { username: string }) => {
+export const Series = async ({
+  username,
+  isLoggedUser,
+}: {
+  username: string;
+  isLoggedUser: boolean;
+}) => {
   noStore();
   // const session = await auth();
   const [postsRs, seriesRs] = await Promise.all([
-    getUserPosts({ username }),
+    getPosts({ username }),
     fetcher(`/series?username=${username}`, {
       next: { tags: ["series", username], revalidate: 0 },
     }),
@@ -26,14 +32,17 @@ export const Series = async ({ username }: { username: string }) => {
   ]);
   return (
     <>
-      <div className="flex mb-4 w-full">
-        <AddOrUpdateSeries posts={postsData.data.data}>
-          <Button variant={"primary"} className="rounded px-3 ml-auto">
-            <PlusIcon className="mr-2" />
-            Tạo series
-          </Button>
-        </AddOrUpdateSeries>
-      </div>
+      {isLoggedUser && (
+        <div className="flex mb-4 w-full">
+          <AddOrUpdateSeries posts={postsData.data.data}>
+            <Button variant={"primary"} className="rounded px-3 ml-auto">
+              <PlusIcon className="mr-2" />
+              Tạo series
+            </Button>
+          </AddOrUpdateSeries>
+        </div>
+      )}
+
       <div className="grid gap-y-4 md:grid-cols-3 gap-2 md:gap-4">
         {seriesData.data.map((serie: TSeries) => (
           <SerieCard key={serie.id} serie={serie} username={username} />

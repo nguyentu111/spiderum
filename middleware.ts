@@ -25,26 +25,29 @@ export default auth((req) => {
   const isPublicRoute = publicRoutes.some((val) => val.test(nextUrl.pathname));
   const isAuthRoute = authRoutes.includes(nextUrl.pathname);
 
-  if (req.nextUrl.pathname === "/") {
+  // if (req.nextUrl.pathname === "/") {
+  //   const sort = req.nextUrl.searchParams.get("sort") as FeedSort;
+  //   const page = req.nextUrl.searchParams.get("page_idx");
+  //   if (!sort || !feedsortVals.includes(sort)) {
+  //     return NextResponse.redirect(new URL(`/?sort=hot&page_idx=1`, req.url));
+  //   }
+  //   if (!page || !Number.parseInt(page)) {
+  //     return NextResponse.redirect(new URL(`/?sort=hot&page_idx=1`, req.url));
+  //   }
+  // }
+  if (
+    req.nextUrl.pathname === "/" ||
+    req.nextUrl.pathname.startsWith("/category")
+  ) {
     const sort = req.nextUrl.searchParams.get("sort") as FeedSort;
-    const page = req.nextUrl.searchParams.get("page_idx");
-    if (!sort || !feedsortVals.includes(sort)) {
-      return NextResponse.redirect(new URL(`/?sort=hot&page_idx=1`, req.url));
-    }
-    if (!page || !Number.parseInt(page)) {
-      return NextResponse.redirect(new URL(`/?sort=hot&page_idx=1`, req.url));
-    }
-  }
-  if (req.nextUrl.pathname.startsWith("/category")) {
-    const sort = req.nextUrl.searchParams.get("sort");
     const page = req.nextUrl.searchParams.get("page_idx");
     if (!sort || !["hot", "new", "top", "controversial"].includes(sort))
       return NextResponse.redirect(
         new URL(`${req.nextUrl.pathname}?sort=hot&page_idx=1`, req.url)
       );
-    if (!page || !Number.parseInt(page)) {
+    if (!page || !Number.parseInt(page) || Number.parseInt(page) <= 0) {
       return NextResponse.redirect(
-        new URL(`${req.nextUrl.pathname}?sort=hot&page_idx=1`, req.url)
+        new URL(`${req.nextUrl.pathname}?sort=${sort}&page_idx=1`, req.url)
       );
     }
   }

@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import { useState, useTransition } from "react";
 import { RegisterSchema } from "@/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { axiosCient } from "@/lib/fetcher";
+import { axiosClient } from "@/lib/fetcher";
 
 import {
   Form,
@@ -34,7 +34,7 @@ export const RegisterForm = () => {
 
     startTransition(async () => {
       try {
-        const rs = await axiosCient.post("/register", values);
+        const rs = await axiosClient.post("/register", values);
         if (rs.data.user) {
           setError("Email đã được đăng kí!");
         } else toast.success("Email đã được gửi.");

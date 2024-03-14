@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 import { ResetPasswordForm } from "./_components/reset-password-form";
-import { axiosCient } from "@/lib/fetcher";
+import { axiosClient } from "@/lib/fetcher";
 import { AxiosError } from "axios";
 
 export const metadata: Metadata = {
@@ -16,7 +16,7 @@ export default async function ResetPassword({
   let errorMessage;
   let email;
   try {
-    const rs = await axiosCient.post("/auth/users/get-email-by-token", {
+    const rs = await axiosClient.post("/auth/users/get-email-by-token", {
       token,
     });
     email = rs.data.email;

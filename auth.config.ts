@@ -2,7 +2,7 @@
 import type { NextAuthConfig, User } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import { LoginSchema } from "./schema";
-import { axiosCient } from "./lib/fetcher";
+import { axiosClient } from "./lib/fetcher";
 // import Github from "next-auth/providers/github";
 // import Google from "next-auth/providers/google";
 export default {
@@ -20,7 +20,7 @@ export default {
         const validatedFields = LoginSchema.safeParse(credentials);
         if (validatedFields.success) {
           try {
-            const rs = await axiosCient.post("/login", validatedFields.data);
+            const rs = await axiosClient.post("/login", validatedFields.data);
             const data = rs.data;
             return data;
           } catch (error) {

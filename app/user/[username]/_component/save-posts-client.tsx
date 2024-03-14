@@ -21,13 +21,7 @@ export const SavedPostsClient = ({ posts }: { posts: Post[] }) => {
             ...state.slice(0, index),
             {
               ...action.payload,
-              like: action.payload.like + 1,
-              likes: [...action.payload.likes, session.data?.user],
-              dislikes: [
-                ...action.payload.dislikes.filter(
-                  (user) => user.id !== session.data?.user.id
-                ),
-              ],
+              point: state[index].point - state[index].user_action + 1,
             },
             ...state.slice(index + 1),
           ] as Post[];
@@ -39,22 +33,10 @@ export const SavedPostsClient = ({ posts }: { posts: Post[] }) => {
             ...state.slice(0, index),
             {
               ...action.payload,
-              likes: [
-                ...action.payload.likes.filter(
-                  (user) => user.id !== session.data?.user.id
-                ),
-              ],
-              dislikes: [
-                ...action.payload.dislikes.filter(
-                  (user) => user.id !== session.data?.user.id
-                ),
-              ],
+              point: state[index].point - state[index].user_action,
             },
             ...state.slice(index + 1),
           ] as Post[];
-
-          newState[index].like =
-            newState[index].likes.length - newState[index].dislikes.length;
           return newState;
         }
       }
@@ -75,7 +57,7 @@ export const SavedPostsClient = ({ posts }: { posts: Post[] }) => {
       {optimisticPosts.map((p: Post) => (
         <CardVertical
           post={p}
-          key={`${p.id}${p.like}`}
+          key={`${p.id}${p.point}`}
           onUnsave={() => handleUnsave(p)}
           onLike={() => handleLike(p)}
           onUnvote={() => handleUnvote(p)}

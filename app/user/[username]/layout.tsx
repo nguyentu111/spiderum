@@ -8,7 +8,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Menu } from "./_component/menu";
 import Tabs from "./_component/tabs";
-import { getUser, getUserPosts } from "@/lib/queries";
+import { getUser, getPosts } from "@/lib/queries";
 import { PaginatedReponse, Post, User } from "@/types";
 import { notFound } from "next/navigation";
 
@@ -25,16 +25,23 @@ export default async function NewPostLayout({
   const session = await auth();
   const user = session?.user;
   const [postsRs, userRs] = await Promise.all([
-    getUserPosts({ username }),
+    getPosts({ username }),
     getUser(username),
   ]);
+
   if (userRs.status === 404 || postsRs.status === 404) return notFound();
   const [userPosts, userData]: [PaginatedReponse<Post>, User] =
     await Promise.all([postsRs.json(), userRs.json()]);
-  const postsCount = userPosts.data.total;
   return (
     <>
-      <Header hasShadow hasEmptySection hasSearch hasMessage hasNewPostBtn />
+      <Header
+        hasShadow
+        hasEmptySection
+        hasSearch
+        hasMessage
+        hasNewPostBtn
+        user={session?.user}
+      />
       <div className="flex">
         <div className="lg:bg-[var(--profile-bg-color)] flex-1"></div>
         <Container className="md:px-0">
@@ -68,7 +75,7 @@ export default async function NewPostLayout({
                     </Link>
                   </div>
                 </div>
-                {username === userData.username && (
+                {user?.username === userData.username && (
                   <Button variant={"secondary"} className="rounded mt-3 w-full">
                     <Link href="/user/setting">Chỉnh sửa trang cá nhân</Link>
                   </Button>
@@ -92,8 +99,12 @@ export default async function NewPostLayout({
             </div>
             <div className="col-span-3 mt-4 px-4 flex flex-col gap-6">
               <div className="flex justify-between items-center border-b border-[var(--profile-tab-border-bottom-color)]">
-                <Tabs postsCount={postsCount} username={username} />
-                <Menu />
+                <Tabs
+                  postsCount={userPosts.data.total}
+                  username={username}
+                  isLoggedUser={user?.username === username}
+                />
+                {user?.username === userData.username && <Menu />}
               </div>
               {/* tab content */}
 

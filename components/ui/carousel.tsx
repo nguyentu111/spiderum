@@ -220,7 +220,7 @@ const CarouselPrevious = React.forwardRef<
         width={15}
         height={24}
         viewBox="0 0 15 24"
-        className="text-[#969696]"
+        className="text-[#969696] mx-auto"
       />
       <span className="sr-only">Previous slide</span>
     </Button>
@@ -254,7 +254,7 @@ const CarouselNext = React.forwardRef<
         width={15}
         height={24}
         viewBox="0 0 15 24"
-        className="text-[#969696]"
+        className="text-[#969696] mx-auto"
       />
       <span className="sr-only">Next slide</span>
     </Button>

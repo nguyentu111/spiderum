@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import { useState, useTransition } from "react";
 import { RegisterSchema, ResetpasswordSchema } from "@/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { axiosCient } from "@/lib/fetcher";
+import { axiosClient } from "@/lib/fetcher";
 
 import {
   Form,
@@ -33,7 +33,7 @@ export const ResetPasswordForm = ({ email }: { email: string }) => {
 
     startTransition(async () => {
       try {
-        const rs = await axiosCient.post("/reset-password", {
+        const rs = await axiosClient.post("/reset-password", {
           ...values,
           email,
         });

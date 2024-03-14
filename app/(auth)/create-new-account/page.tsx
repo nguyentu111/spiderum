@@ -3,7 +3,7 @@ import React from "react";
 import { CreateAccountForm } from "./components/create-account-form";
 import Link from "next/link";
 import Image from "next/image";
-import { axiosCient } from "@/lib/fetcher";
+import { axiosClient } from "@/lib/fetcher";
 import { AxiosError } from "axios";
 import { cloudinary } from "@/lib/cloudinary";
 
@@ -28,7 +28,7 @@ const page = async ({ searchParams: { token } }: Props) => {
   let email;
   console.log(avatars);
   try {
-    const rs = await axiosCient.post("/auth/users/get-email-by-token", {
+    const rs = await axiosClient.post("/auth/users/get-email-by-token", {
       token,
     });
     email = rs.data.email;

@@ -6,6 +6,7 @@ export interface User {
   facebook_id: string | null;
   username: string;
   token: string;
+  is_followed?: boolean;
 }
 export interface UserInfo {
   id: string;
@@ -55,6 +56,16 @@ export interface Post {
   is_saved: boolean;
   point: number;
   user_action: -1 | 0 | 1;
+}
+export interface Draft {
+  id: string;
+  name: string;
+  description: string;
+  content: string;
+  author_id: string;
+  created_at: string;
+  updated_at: string;
+  author: User;
 }
 export interface Tag {
   id: string;

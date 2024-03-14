@@ -3,6 +3,7 @@ import { Container } from "@/components/container";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { BannerImage } from "./banner-image";
+import Link from "next/link";
 
 export const Banner = () => {
   return (
@@ -28,11 +29,12 @@ export const Banner = () => {
             Tất cả tại Spiderum
           </div>
           <Button
+            asChild
+            size={"lg"}
             variant={"outline"}
             className="px-[50px] py-[9px] rounded-full"
-            size={"lg"}
           >
-            Đăng bài viết
+            <Link href={"/new-post"}>Đăng bài viết</Link>
           </Button>
         </div>
       </Container>

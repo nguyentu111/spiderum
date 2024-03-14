@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export const axiosCient = axios.create({
+export const axiosClient = axios.create({
   baseURL: `${process.env.NEXT_PUBLIC_BE_URL}/api`,
 });
 export const fetcher = async (url: string, options?: RequestInit) =>

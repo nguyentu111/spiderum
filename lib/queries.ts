@@ -1,18 +1,22 @@
 import { FeedSort, Series } from "@/types";
-import { axiosCient, fetcher } from "./fetcher";
+import { axiosClient, fetcher } from "./fetcher";
 export const getNewFeed = async ({
   page,
   per_page,
   sort,
   token,
+  category,
 }: {
   sort: FeedSort;
   per_page: number;
   page: number;
   token?: string;
+  category?: string;
 }) => {
   const rs = await fetcher(
-    `/new-feed?sort=${sort}&per_page=${per_page}&page=${page}`,
+    `/new-feed?sort=${sort}&per_page=${per_page}&page=${page}${
+      category ? `&category=${category}` : ""
+    }`,
     {
       next: { revalidate: 0 },
       headers: { Authorization: `Bearer ${token}`, Accept: "application/json" },
@@ -28,15 +32,27 @@ export const getTopView = async (token?: string) => {
   return await rs.json();
 };
 export const getCategories = async () => {
-  const rs = await fetcher(`/categories`, { next: { revalidate: 0 } });
+  const rs = await fetcher(`/categories`);
+  return await rs.json();
+};
+export const getNewTopWriter = async (token?: string) => {
+  const rs = await fetcher(`/new-top-writer`, {
+    headers: { Authorization: `Bearer ${token}`, Accept: "application/json" },
+  });
+  return await rs.json();
+};
+export const getOldButGoldPost = async (token?: string) => {
+  const rs = await fetcher(`/old-but-gold-post`, {
+    headers: { Authorization: `Bearer ${token}`, Accept: "application/json" },
+  });
   return await rs.json();
 };
 export const getSeries = async (username?: string) => {
-  const rs = await axiosCient.get(`/series?username=${username}`);
+  const rs = await axiosClient.get(`/series?username=${username}`);
   return rs.data.data as Series[];
 };
 export const getPostData = async (slug: string) => {
-  const rs = await axiosCient.get(`/posts/${slug}`);
+  const rs = await axiosClient.get(`/posts/${slug}`);
   return rs.data;
 };
 export const getSingleSeries = async (slug: string) => {
@@ -56,7 +72,7 @@ export const addSeries = async ({
   };
   token?: string;
 }): Promise<any> => {
-  const rs = await axiosCient.post(`/series`, data, {
+  const rs = await axiosClient.post(`/series`, data, {
     headers: { Authorization: `Bearer ${token}`, Accept: "application/json" },
   });
   return rs.data;
@@ -74,7 +90,7 @@ export const updateSeries = async ({
   };
   token?: string;
 }): Promise<any> => {
-  const rs = await axiosCient.post(`/series/${slug}`, data, {
+  const rs = await axiosClient.post(`/series/${slug}`, data, {
     headers: { Authorization: `Bearer ${token}`, Accept: "application/json" },
   });
   return rs;
@@ -86,8 +102,30 @@ export const addNewPost = async ({
   data: any;
   token?: string;
 }): Promise<any> => {
-  const rs = await axiosCient.post(
+  const rs = await axiosClient.post(
     `/posts`,
+    { ...data },
+    {
+      headers: { Authorization: `Bearer ${token}`, Accept: "application/json" },
+    }
+  );
+  return rs.data;
+};
+export const addNewOrUpdateDraft = async ({
+  data,
+  token,
+}: {
+  data: {
+    thumbnail: string;
+    description: string;
+    name: string;
+    content: string;
+    id?: string;
+  };
+  token?: string;
+}): Promise<any> => {
+  const rs = await axiosClient.post(
+    `/drafts`,
     { ...data },
     {
       headers: { Authorization: `Bearer ${token}`, Accept: "application/json" },
@@ -106,7 +144,7 @@ export const addComment = async ({
   };
   token?: string;
 }) => {
-  const rs = await axiosCient.post(
+  const rs = await axiosClient.post(
     `/comments`,
     { ...data },
     {
@@ -128,7 +166,7 @@ export const getComment = async ({
   token?: string;
   page: number;
 }) => {
-  const rs = await axiosCient.get(
+  const rs = await axiosClient.get(
     `/comments?post_id=${post_id}&order=${order}&page=${page}`,
     {
       headers: { Authorization: `Bearer ${token}`, Accept: "application/json" },
@@ -143,7 +181,7 @@ export const deleteComment = async ({
   comment_id: string;
   token?: string;
 }) => {
-  const rs = await axiosCient.delete(`/comments/${comment_id}`, {
+  const rs = await axiosClient.delete(`/comments/${comment_id}`, {
     headers: { Authorization: `Bearer ${token}`, Accept: "application/json" },
   });
   return rs.data;
@@ -157,7 +195,7 @@ export const voteComment = async ({
   comment_id: string;
   token?: string;
 }) => {
-  const rs = await axiosCient.post(
+  const rs = await axiosClient.post(
     `/comments/vote/${comment_id}`,
     { action },
     {
@@ -175,7 +213,7 @@ export const votePost = async ({
   token?: string;
   action: 0 | 1 | 2;
 }) => {
-  const rs = await axiosCient.patch(
+  const rs = await axiosClient.patch(
     `/posts/vote/${slug}`,
     { action },
     {
@@ -184,17 +222,27 @@ export const votePost = async ({
   );
   return rs.data;
 };
-export const getUserPosts = async ({
+export const getPosts = async ({
   username,
   series,
   token,
+  category,
+  except_cat,
+  random,
 }: {
-  username: string;
+  username?: string;
   series?: string;
+  category?: string;
   token?: string;
+  except_cat?: string;
+  random?: boolean;
 }) => {
   const rs = await fetcher(
-    `/posts?username=${username}${series ? `&series=${series}` : ""}`,
+    `/posts?${username ? `username=${username}` : ""}${
+      series ? `&series=${series}` : ""
+    }${category ? `&category=${category}` : ""}${
+      random ? `&random=true}` : ""
+    }${except_cat ? `&except_cat=${except_cat}` : ""}`,
     {
       next: { revalidate: 0 },
       headers: { Authorization: `Bearer ${token}`, Accept: "application/json" },
@@ -213,7 +261,7 @@ export const savePost = async ({
   slug: string;
   token: string;
 }) => {
-  const rs = await axiosCient.post(
+  const rs = await axiosClient.post(
     `/posts/save/${slug}`,
     {},
     {
@@ -229,7 +277,7 @@ export const unsavePost = async ({
   slug: string;
   token: string;
 }) => {
-  const rs = await axiosCient.post(
+  const rs = await axiosClient.post(
     `/posts/unsave/${slug}`,
     {},
     {
@@ -239,7 +287,7 @@ export const unsavePost = async ({
   return rs;
 };
 export const getSavedPosts = async (token: string) => {
-  const rs = await axiosCient.get(`/saved-posts`, {
+  const rs = await axiosClient.get(`/saved-posts`, {
     headers: { Authorization: `Bearer ${token}`, Accept: "application/json" },
   });
   return rs.data?.data;
@@ -250,4 +298,26 @@ export const getSavedPostsServer = async (token: string) => {
     next: { revalidate: 0 },
   });
   return rs;
+};
+export const followWriter = async ({
+  data,
+  token,
+}: {
+  token: string;
+  data: { target_id: string };
+}) => {
+  const rs = await axiosClient.post("/follow", data, {
+    headers: { Authorization: `Bearer ${token}`, Accept: "application/json" },
+  });
+};
+export const unfollowWriter = async ({
+  data,
+  token,
+}: {
+  token: string;
+  data: { target_id: string };
+}) => {
+  const rs = await axiosClient.post("/unfollow", data, {
+    headers: { Authorization: `Bearer ${token}`, Accept: "application/json" },
+  });
 };

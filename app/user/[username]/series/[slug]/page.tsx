@@ -1,6 +1,6 @@
 import { auth } from "@/auth";
 import { CardVertical } from "@/components/post-card-2";
-import { getSingleSeries, getUserPosts } from "@/lib/queries";
+import { getSingleSeries, getPosts } from "@/lib/queries";
 import { PaginatedReponse, Post, Series } from "@/types";
 import { notFound } from "next/navigation";
 import React from "react";
@@ -13,7 +13,7 @@ type Props = {
 const page = async ({ params: { username, slug } }: Props) => {
   const session = await auth();
   const [postsRs, seriesRs] = await Promise.all([
-    getUserPosts({
+    getPosts({
       username,
     }),
     getSingleSeries(slug),

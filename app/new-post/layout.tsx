@@ -1,3 +1,4 @@
+import { auth } from "@/auth";
 import { Header } from "@/components/patials/header";
 import { Metadata } from "next";
 interface NewPostLayoutProps {
@@ -6,10 +7,12 @@ interface NewPostLayoutProps {
 export const metadata: Metadata = {
   title: "Viết bài mới",
 };
-export default function NewPostLayout({ children }: NewPostLayoutProps) {
+
+export default async function NewPostLayout({ children }: NewPostLayoutProps) {
+  const session = await auth();
   return (
     <>
-      <Header fixed />
+      <Header fixed user={session?.user} />
       {children}
     </>
   );

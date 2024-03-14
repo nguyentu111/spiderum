@@ -7,14 +7,16 @@ import {
   PopoverTrigger,
   PopoverClose,
 } from "@/components/ui/popover";
+import { cn } from "@/lib/utils";
 import { useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 
 export const Menu = () => {
   const router = useRouter();
   const { data: session } = useSession();
   const user = session?.user!;
+  const tab = useSearchParams().get("tab");
   const [open, setOpen] = useState(false);
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -45,7 +47,10 @@ export const Menu = () => {
             router.push(`/user/${user.username}?tab=comments`);
             setOpen(false);
           }}
-          className="cursor-pointer p-4 w-full flex justify-start font-normal h-auto hover:text-gray-900 hover:bg-gray-100 text-gray-700 rounded-none"
+          className={cn(
+            "cursor-pointer p-4 w-full flex justify-start font-normal h-auto hover:text-gray-900 hover:bg-gray-100 text-gray-700 rounded-none",
+            tab == "comments" && "border-l-4 border-blue-500"
+          )}
           variant={"ghost"}
           asChild
         >
@@ -57,7 +62,10 @@ export const Menu = () => {
             router.push(`/user/${user.username}?tab=followers`);
             setOpen(false);
           }}
-          className="cursor-pointer p-4 w-full flex justify-start font-normal h-auto hover:text-gray-900 hover:bg-gray-100 text-gray-700 rounded-none"
+          className={cn(
+            "cursor-pointer p-4 w-full flex justify-start font-normal h-auto hover:text-gray-900 hover:bg-gray-100 text-gray-700 rounded-none",
+            tab == "followers" && "border-l-4 border-blue-500"
+          )}
           variant={"ghost"}
           asChild
         >
@@ -68,7 +76,10 @@ export const Menu = () => {
             router.push(`/user/${user.username}?tab=following`);
             setOpen(false);
           }}
-          className="cursor-pointer p-4 w-full flex justify-start font-normal h-auto hover:text-gray-900 hover:bg-gray-100 text-gray-700 rounded-none"
+          className={cn(
+            "cursor-pointer p-4 w-full flex justify-start font-normal h-auto hover:text-gray-900 hover:bg-gray-100 text-gray-700 rounded-none",
+            tab == "following" && "border-l-4 border-blue-500"
+          )}
           variant={"ghost"}
           asChild
         >
@@ -79,7 +90,10 @@ export const Menu = () => {
             router.push(`/user/${user.username}?tab=draft`);
             setOpen(false);
           }}
-          className="cursor-pointer p-4 w-full flex justify-start font-normal h-auto hover:text-gray-900 hover:bg-gray-100 text-gray-700 rounded-none"
+          className={cn(
+            "cursor-pointer p-4 w-full flex justify-start font-normal h-auto hover:text-gray-900 hover:bg-gray-100 text-gray-700 rounded-none",
+            tab == "draft" && "border-l-4 border-blue-500"
+          )}
           variant={"ghost"}
           asChild
         >

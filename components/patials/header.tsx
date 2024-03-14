@@ -12,7 +12,7 @@ import { useSearch } from "@/hooks/use-search";
 import { HeaderSearch } from "./header-search";
 import { cn } from "@/lib/utils";
 import { ResponsiveLogo } from "../responsive-logo";
-import { useSession } from "next-auth/react";
+import { Category, User } from "@/types";
 interface HeaderProps {
   hasSearch?: boolean;
   hasMessage?: boolean;
@@ -22,6 +22,8 @@ interface HeaderProps {
   hasShadow?: boolean;
   hasEmptySection?: boolean;
   fixed?: boolean;
+  categories?: Category[];
+  user?: User;
 }
 export const Header = ({
   hasCategories,
@@ -32,11 +34,11 @@ export const Header = ({
   hasShadow,
   hasEmptySection,
   fixed,
+  categories,
+  user,
 }: HeaderProps) => {
   const isOpen = useSearch((state) => state.isOpen);
   const onOpen = useSearch((state) => state.onOpen);
-  const { data: session } = useSession();
-  const user = session?.user;
   return (
     <nav
       style={{
@@ -58,9 +60,9 @@ export const Header = ({
           />
         )}
       </Container>
-      {user && hasCategories ? (
+      {user && hasCategories && categories ? (
         <Container className="hidden lg:block">
-          <HeaderCategory />
+          <HeaderCategory categories={categories} />
         </Container>
       ) : null}
       {hasEmptySection && <div className="h-[3.5rem] w-full"></div>}

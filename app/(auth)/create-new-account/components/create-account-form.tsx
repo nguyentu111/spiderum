@@ -13,7 +13,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { axiosCient } from "@/lib/fetcher";
+import { axiosClient } from "@/lib/fetcher";
 import { AxiosError } from "axios";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
@@ -37,7 +37,7 @@ export const CreateAccountForm = ({
 
     startTransition(async () => {
       try {
-        const rs = await axiosCient.post("/auth/users/store", {
+        const rs = await axiosClient.post("/auth/users/store", {
           ...values,
           email,
           avatar_url:

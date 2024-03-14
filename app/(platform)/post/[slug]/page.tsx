@@ -27,18 +27,27 @@ export const dynamic = "force-dynamic";
 export default async function PostPage({ params }: PostPageProps) {
   const { slug } = params;
   const session = await auth();
-  const rs = await fetcher(`/posts/${slug}`, {
-    headers: { Authorization: "Bearer " + session?.user.token },
-  });
-  if (rs.status === 404) return notFound();
-  const data = (await rs.json()) as { data: TPost };
-  // console.log()
+  const [postRs, otherPopularPostsRs] = await Promise.all([
+    fetcher(`/posts/${slug}`, {
+      headers: { Authorization: "Bearer " + session?.user.token },
+    }),
+    fetcher(`/posts`, {
+      headers: { Authorization: "Bearer " + session?.user.token },
+    }),
+  ]);
+  if (postRs.status === 404 || otherPopularPostsRs.status === 404)
+    return notFound();
+
+  // const data = (await postRs.json()) as ;
+  const [postData, otherPopularPostsData]: [{ data: TPost }, any] =
+    await Promise.all([postRs.json(), otherPopularPostsRs.json()]);
   return (
     <Post
       post={{
-        ...data.data,
-        created_at: formatTimeToDistant(data.data.created_at),
+        ...postData.data,
+        created_at: formatTimeToDistant(postData.data.created_at),
       }}
+      otherPopularPosts={otherPopularPostsData.data.data}
     />
   );
 }

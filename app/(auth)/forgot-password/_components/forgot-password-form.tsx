@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import { useState, useTransition } from "react";
 import { RegisterSchema } from "@/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { axiosCient } from "@/lib/fetcher";
+import { axiosClient } from "@/lib/fetcher";
 
 import {
   Form,
@@ -35,7 +35,7 @@ export const ForgotPasswordForm = () => {
 
     startTransition(async () => {
       try {
-        const rs = await axiosCient.post("/forgot-password", values);
+        const rs = await axiosClient.post("/forgot-password", values);
         toast.success("Email đã được gửi.");
       } catch (e) {
         if (e instanceof AxiosError)

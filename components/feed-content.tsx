@@ -1,5 +1,6 @@
 import { Post } from "@/types";
 import { CardVertical } from "./post-card-2";
+import { Skeleton } from "./ui/skeleton";
 
 export const FeedContent = ({ posts }: { posts: Post[] }) => {
   return (
@@ -10,6 +11,17 @@ export const FeedContent = ({ posts }: { posts: Post[] }) => {
           <CardVertical post={post} />
         </div>
       ))}
+    </div>
+  );
+};
+FeedContent.Skeleton = () => {
+  return (
+    <div className="flex flex-col gap-4 mb-4">
+      <Skeleton className="h-[18px] w-[30%]" />
+      <Skeleton className="h-[197px] w-full" />
+      <Skeleton className="h-[18px] w-[70%]" />
+      <Skeleton className="h-3 w-full" />
+      <Skeleton className="h-3 w-full" />
     </div>
   );
 };

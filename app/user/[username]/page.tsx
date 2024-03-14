@@ -4,6 +4,7 @@ import { Suspense } from "react";
 import { Posts } from "./_component/posts";
 import { SavedPosts } from "./_component/saved-posts";
 import { Series } from "./_component/series";
+import { Drafts } from "./_component/drafts";
 
 interface UserPageProps {
   params: { username: string };
@@ -14,6 +15,8 @@ export default async function UserPage({
   searchParams,
 }: UserPageProps) {
   const tab = searchParams.tab;
+  const session = await auth();
+  const user = session?.user;
   return (
     <>
       {!tab && (
@@ -23,7 +26,10 @@ export default async function UserPage({
       )}
       {tab == "series" && (
         <Suspense fallback={<CSkeleton />}>
-          <Series username={username} />
+          <Series
+            username={username}
+            isLoggedUser={user?.username === username}
+          />
         </Suspense>
       )}
       {tab == "savedPosts" && (
@@ -34,7 +40,11 @@ export default async function UserPage({
       {tab == "comments" && <div>comments</div>}
       {tab == "followers" && <div>followers</div>}
       {tab == "following" && <div>following</div>}
-      {tab == "draft" && <div>draft</div>}
+      {tab == "draft" && (
+        <Suspense fallback={<CSkeleton />}>
+          <Drafts username={username} />
+        </Suspense>
+      )}
     </>
   );
 }

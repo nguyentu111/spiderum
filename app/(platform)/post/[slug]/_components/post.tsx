@@ -15,13 +15,29 @@ import { Stickybar } from "./sticky-bar";
 import { Vote } from "../../../../../components/vote";
 import { useOptimisticPost } from "@/hooks/use-optimistic-post";
 import { SavePost } from "../../../../../components/save-post";
+import { PostCarousel } from "@/components/post-carousel";
+import { useEffect } from "react";
+import { axiosClient } from "@/lib/fetcher";
 type Props = {
   post: TPost;
+  otherPopularPosts: TPost[];
 };
 
-export const Post = ({ post }: Props) => {
+export const Post = ({ post, otherPopularPosts }: Props) => {
   const { dispatch, optimisticPost } = useOptimisticPost(post);
   const category = optimisticPost.categories[0];
+  useEffect(() => {
+    const updateViewTimer = setTimeout(async () => {
+      try {
+        const { data } = await axiosClient.patch(
+          `/posts/count-view/${post.slug}`
+        );
+      } catch (e) {
+        // console.log(e);
+      }
+    }, 300);
+    return () => clearTimeout(updateViewTimer);
+  }, []);
   return (
     <div className="text-14 leading-[1.5385615384] bg-white flex flex-col items-center min-h-[80vh]">
       <div className="py-[15px] px-[10px] mt-2 xl:w-[700px] lg:w-[650px] md:w-[600px] w-full">
@@ -73,7 +89,7 @@ export const Post = ({ post }: Props) => {
         <div className="flex items-center">
           <Vote type="horizontal" post={optimisticPost} dispatch={dispatch} />
           <div className="text-center before:content-['·'] before:mx-2 text-gray-500">
-            {optimisticPost.view + 1} lượt xem V
+            {optimisticPost.view + 1} lượt xem
           </div>
         </div>
         <div className="flex items-center gap-2">
@@ -128,7 +144,7 @@ export const Post = ({ post }: Props) => {
         <div className="my-6">
           <strong>Bài viết nổi bật</strong>
         </div>
-        {/* <PostCarousel /> */}
+        <PostCarousel posts={otherPopularPosts} />
       </div>
       <div className=" xl:w-[700px] lg:w-[768px] xs:w-[640px] w-full">
         <Comments post={post} />

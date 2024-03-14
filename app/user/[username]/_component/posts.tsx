@@ -1,13 +1,13 @@
 import { auth } from "@/auth";
 import { CardVertical } from "@/components/post-card-1";
-import { getUserPosts } from "@/lib/queries";
+import { getPosts } from "@/lib/queries";
 import { PaginatedReponse, Post } from "@/types";
 import { unstable_noStore as noStore } from "next/cache";
 
 export const Posts = async ({ username }: { username: string }) => {
   noStore();
   const session = await auth();
-  const rs = await getUserPosts({ username, token: session?.user.token });
+  const rs = await getPosts({ username, token: session?.user.token });
   const userPosts = (await rs.json()) as PaginatedReponse<Post>;
   const posts = userPosts.data.data;
   if (userPosts.data.data.length === 0)

@@ -56,10 +56,10 @@ export default function SearchPage({
         </div>
         {type === "post" && (
           <div className="flex flex-col gap-14 mt-7">
+            {/* <CardVertical />
             <CardVertical />
             <CardVertical />
-            <CardVertical />
-            <CardVertical />
+            <CardVertical /> */}
           </div>
         )}
         {type === "user" && (

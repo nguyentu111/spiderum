@@ -2,63 +2,27 @@ import { Bar } from "@/components/icons/Bar";
 import { Button } from "@/components/ui/button";
 import {
   Popover,
+  PopoverClose,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { Category } from "@/types";
 import Link from "next/link";
 
-export const HeaderCategory = () => {
+export const HeaderCategory = ({ categories }: { categories: Category[] }) => {
   return (
     <div className="flex justify-between items-center">
       <ul className="flex items-center ">
-        <li>
-          <Link
-            className="flex items-center h-[3.5rem] uppercase text-[12.8px]"
-            href="/category/quandiem-tranhluan"
-          >
-            quan điểm - tranh luận
-          </Link>
-        </li>
-        <li className="ml-16">
-          <Link
-            className="flex items-center h-[3.5rem] uppercase text-[12.8px]"
-            href="/"
-          >
-            khoa học - công nghệ
-          </Link>
-        </li>
-        <li className="ml-16">
-          <Link
-            className="flex items-center h-[3.5rem] uppercase text-[12.8px]"
-            href="/"
-          >
-            tài chính
-          </Link>
-        </li>
-        <li className="ml-16">
-          <Link
-            className="flex items-center h-[3.5rem] uppercase text-[12.8px]"
-            href="/"
-          >
-            du lịch
-          </Link>
-        </li>
-        <li className="ml-16">
-          <Link
-            className="flex items-center h-[3.5rem] uppercase text-[12.8px]"
-            href="/"
-          >
-            sách
-          </Link>
-        </li>
-        <li className="ml-16">
-          <Link
-            className="flex items-center h-[3.5rem] uppercase text-[12.8px]"
-            href="/"
-          >
-            tâm lý học
-          </Link>
-        </li>
+        {categories.slice(0, 6).map((cat) => (
+          <li key={cat.id}>
+            <Link
+              className="flex items-center h-[3.5rem] uppercase text-[12.8px] mr-16"
+              href={`/category/${cat.slug}`}
+            >
+              {cat.name}
+            </Link>
+          </li>
+        ))}
       </ul>
       <Popover>
         <PopoverTrigger asChild>
@@ -74,15 +38,16 @@ export const HeaderCategory = () => {
           sideOffset={0}
         >
           <div className="flex flex-col">
-            <Link href="/" className="px-4 py-3">
-              Chuyện thầm kín
-            </Link>
-            <Link href="/" className="px-4 py-3">
-              Thể thao
-            </Link>
-            <Link href="/" className="px-4 py-3">
-              Giáo dục
-            </Link>
+            {categories.slice(6).map((cat) => (
+              <PopoverClose asChild key={cat.id}>
+                <Link
+                  href={`/category/${cat.slug}`}
+                  className="px-4 py-3  text-[12.8px] uppercase"
+                >
+                  {cat.name}
+                </Link>
+              </PopoverClose>
+            ))}
           </div>
         </PopoverContent>
       </Popover>
