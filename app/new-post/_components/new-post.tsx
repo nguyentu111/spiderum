@@ -1,7 +1,7 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { cn, getDescriptionFromEditorContent } from "@/lib/utils";
-import { CategoryWithTag } from "@/types";
+import { CategoryWithTag, Draft } from "@/types";
 import { FormEvent, useEffect, useRef, useState } from "react";
 import { montserrat } from "@/app/fonts";
 import { Editor, EditorHandle } from "./editor";
@@ -17,16 +17,17 @@ import { Loader } from "lucide-react";
 import { v4 as uuid } from "uuid";
 type Props = {
   categories: CategoryWithTag[];
+  draft?: Draft;
 };
 
-export const NewPost = ({ categories }: Props) => {
+export const NewPost = ({ categories, draft }: Props) => {
   const session = useSession();
   const router = useRouter();
   const refTitle = useRef<HTMLDivElement | null>(null);
   const refEditor = useRef<EditorHandle>(null);
-  const [description] = usePostDescription();
-  const [draftId, setDraftId] = useState<string | undefined>();
-  const [title, setTitle] = useState("");
+  const [description, setDescription] = usePostDescription();
+  const [draftId, setDraftId] = useState<string | undefined>(draft?.id);
+  const [title, setTitle] = useState(draft?.name ?? "");
   const [editorChange, setEditorChange] = useState(false);
   const [isSavingDraft, setIsSavingDraft] = useState(false);
   const [isSavedDraft, setIsSavedDraft] = useState(false);
@@ -114,6 +115,9 @@ export const NewPost = ({ categories }: Props) => {
     if (!draftId) {
       setDraftId(uuid());
     }
+    if (draft) {
+      setDescription(draft.description);
+    }
   }, []);
   return (
     <>
@@ -123,18 +127,21 @@ export const NewPost = ({ categories }: Props) => {
             ref={refTitle}
             onInput={handleChange}
             contentEditable
-            data-placeholder="Tiêu đề bài viết......."
+            data-placeholder={draft?.name ? "" : "Tiêu đề bài viết......."}
             className={cn(
               montserrat.className,
               "text-[30px] leading-[3rem] mb-4 font-semibold outline-none before:content-[attr(data-placeholder)] relative  before:text-[#c4c4c4]"
             )}
-          />
+          >
+            {draft?.name}
+          </div>
 
           <Editor
             ref={refEditor}
             onChange={() => {
               setEditorChange((prev) => !prev);
             }}
+            defaultData={draft ? JSON.parse(draft.content) : undefined}
           />
         </div>
       </div>

@@ -321,3 +321,26 @@ export const unfollowWriter = async ({
     headers: { Authorization: `Bearer ${token}`, Accept: "application/json" },
   });
 };
+export const getDraft = async ({
+  id,
+  token,
+}: {
+  id: string;
+  token: string;
+}) => {
+  return fetcher(`/drafts/${id}`, {
+    headers: { Authorization: `Bearer ${token}`, Accept: "application/json" },
+  });
+};
+export const deleteDraft = async ({
+  id,
+  token,
+}: {
+  id: string;
+  token: string;
+}) => {
+  const rs = await axiosClient.delete(`/drafts/${id}`, {
+    headers: { Authorization: `Bearer ${token}`, Accept: "application/json" },
+  });
+  return rs;
+};

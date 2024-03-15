@@ -1,6 +1,6 @@
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
-import { formatDistanceToNow, parseISO } from "date-fns";
+import { format, formatDistanceToNow, parseISO } from "date-fns";
 import { vi } from "date-fns/locale";
 import { OutputData } from "@editorjs/editorjs";
 
@@ -29,6 +29,12 @@ export const formatTimeToDistant = (time: string) => {
     locale: vi,
   });
 };
+
+export function getDayFromTimestamp(timestampString: string) {
+  const date = parseISO(timestampString);
+  const formattedDay = format(date, "do 'tháng' M", { locale: vi });
+  return formattedDay;
+}
 export const getDescriptionFromEditorContent = (content: OutputData) => {
   let rs = "";
   content.blocks.every((block) => {
