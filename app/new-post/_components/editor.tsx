@@ -1,22 +1,20 @@
 "use client";
+import { uploadFile, uploadFileByUrl } from "@/actions/uploadFile";
+import { notoSerif } from "@/app/fonts";
+import {
+  useChoosingCategories,
+  useChoosingSerie,
+  useChossingTags,
+} from "@/global-state";
 import { cn } from "@/lib/utils";
 import EditorJS, { OutputData } from "@editorjs/editorjs";
-import { notoSerif } from "@/app/fonts";
-import { uploadFile, uploadFileByUrl } from "@/actions/uploadFile";
 import {
-  Dispatch,
-  SetStateAction,
   forwardRef,
   useEffect,
   useImperativeHandle,
   useRef,
   useState,
 } from "react";
-import {
-  useChoosingCategories,
-  useChoosingSerie,
-  useChossingTags,
-} from "@/global-state";
 export type EditorHandle = {
   getContent: () => Promise<{
     content: OutputData;

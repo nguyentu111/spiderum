@@ -45,3 +45,17 @@ export const CreateSerieSchema = z.object({
   name: z.string().min(6, "Tên ít nhât 6 kí tự"),
   description: z.string().optional(),
 });
+export const updateAccountSchema = z.object({
+  alias: z.string().min(6, "Tên ít nhât 6 kí tự"),
+  description: z
+    .string()
+    .max(150, "Mô tả không quá 150 kí tự")
+    .optional()
+    .nullable(),
+  wallpaper: z.string().optional().nullable(),
+  avatar: z.string().optional().nullable(),
+  day: z.string(),
+  month: z.string(),
+  year: z.string(),
+  gender: z.enum(["male", "female"]),
+});

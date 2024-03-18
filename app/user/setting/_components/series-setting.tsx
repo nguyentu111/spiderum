@@ -1,7 +1,13 @@
-import { PaginatedReponse, Post } from "@/types";
+import { PaginatedReponse, Post, Series } from "@/types";
 import { AddOrUpdateSeries } from "../../[username]/_component/add-or-update-series";
 
-export const SeriesSetting = ({ posts }: { posts: PaginatedReponse<Post> }) => {
+export const SeriesSetting = ({
+  posts,
+  series,
+}: {
+  posts: PaginatedReponse<Post>;
+  series: Series[];
+}) => {
   return (
     <div className="p-4">
       <label className="block uppercase tracking-wide text-gray-700 text-sm font-bold mb-2">

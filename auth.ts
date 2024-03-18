@@ -20,14 +20,18 @@ export const {
       session.user = token.user as any;
       return session;
     },
-    async jwt({ token, account, user, session }) {
+    async jwt({ token, account, user, session, trigger }) {
       if (user) {
         //@ts-ignore
         token.user = user.user;
         //@ts-ignore
         token.user.token = user.token;
       }
-
+      if (trigger == "update") {
+        console.log(token, session);
+        //@ts-ignore
+        return { ...token, user: { ...session.user, token: token.user.token } };
+      }
       return token;
     },
   },

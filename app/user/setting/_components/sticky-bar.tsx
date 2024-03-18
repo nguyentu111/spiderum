@@ -1,18 +1,11 @@
-import { Bookmark } from "@/components/icons/Bookmark";
-import { ChatSquare } from "@/components/icons/ChatSquare";
-import { Share } from "@/components/icons/Share";
-import { TriangleDown } from "@/components/icons/TriangleDown";
-import { TriangleUp } from "@/components/icons/TriangleUp";
-import { UserPlus } from "@/components/icons/UserPlus";
+"use client";
 import { cn } from "@/lib/utils";
-import Image from "next/image";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import { HTMLAttributes } from "react";
-interface StickyBarProps extends HTMLAttributes<HTMLUListElement> {
-  changeTab: (tab: number) => void;
-  tab: number;
-}
-export const Stickybar = ({ changeTab, tab, className }: StickyBarProps) => {
+interface StickyBarProps extends HTMLAttributes<HTMLUListElement> {}
+export const Stickybar = ({ className }: StickyBarProps) => {
+  const tab = useSearchParams().get("tab");
   return (
     <ul
       className={cn(
@@ -23,43 +16,47 @@ export const Stickybar = ({ changeTab, tab, className }: StickyBarProps) => {
     >
       <li
         className={cn(
-          tab === 1 &&
+          (!tab || tab === "account") &&
             "border-b-[3px] lg:border-b-0 lg:border-l-[3px] border-blue-400 font-bold text-gray-600",
           "p-1.5 cursor-pointer lg:w-full hover:text-blue-500 px-4 lg:px-1.5"
         )}
-        onClick={() => changeTab(1)}
       >
-        <span className="pl-1">Tài khoản</span>
+        <Link href="/user/setting?tab=account" className="pl-1">
+          Tài khoản
+        </Link>
       </li>
       <li
         className={cn(
-          tab === 2 &&
+          tab === "series" &&
             "border-b-[3px] lg:border-b-0 lg:border-l-[3px] border-blue-400 font-bold text-gray-600",
           "p-1.5 cursor-pointer lg:w-full hover:text-blue-500 px-4 lg:px-1.5"
         )}
-        onClick={() => changeTab(2)}
       >
-        <span className="pl-1">Series</span>
+        <Link href="/user/setting?tab=series" className="pl-1">
+          Series
+        </Link>
       </li>
       <li
         className={cn(
-          tab === 3 &&
+          tab === "banned" &&
             "border-b-[3px] lg:border-b-0 lg:border-l-[3px] border-blue-400 font-bold text-gray-600",
           "p-1.5 cursor-pointer lg:w-full hover:text-blue-500 px-4 lg:px-1.5"
         )}
-        onClick={() => changeTab(3)}
       >
-        <span className="pl-1">Đã chặn</span>
+        <Link href="/user/setting?tab=banned" className="pl-1">
+          Đã chặn
+        </Link>
       </li>
       <li
         className={cn(
-          tab === 4 &&
+          tab === "change-password" &&
             "border-b-[3px] lg:border-b-0 lg:border-l-[3px]  border-blue-400 font-bold text-gray-600",
           "p-1.5 cursor-pointer lg:w-full hover:text-blue-500"
         )}
-        onClick={() => changeTab(4)}
       >
-        <span className="pl-1">Đổi mật khẩu</span>
+        <Link href="/user/setting?tab=change-password" className="pl-1">
+          Đổi mật khẩu
+        </Link>
       </li>
     </ul>
   );

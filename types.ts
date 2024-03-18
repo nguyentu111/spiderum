@@ -1,7 +1,7 @@
 export type FeedSort = "hot" | "controversial" | "new" | "follow" | "top";
 export interface User {
   id: string;
-  alias: string | null;
+  alias: string;
   avatar_url: string | null;
   facebook_id: string | null;
   username: string;
@@ -18,6 +18,8 @@ export interface UserInfo {
   dob: string | null;
   id_number: string | null;
   user_id: string;
+  wallpaper: string | null;
+  gender: null | "male" | "female";
 }
 export interface UserWithInfo extends User {
   user_info: UserInfo;

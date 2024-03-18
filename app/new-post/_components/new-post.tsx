@@ -28,7 +28,7 @@ export const NewPost = ({ categories, draft }: Props) => {
   const [description, setDescription] = usePostDescription();
   const [draftId, setDraftId] = useState<string | undefined>(draft?.id);
   const [title, setTitle] = useState(draft?.name ?? "");
-  const [editorChange, setEditorChange] = useState(false);
+  const [toggleChange, setToggle] = useState(false);
   const [isSavingDraft, setIsSavingDraft] = useState(false);
   const [isSavedDraft, setIsSavedDraft] = useState(false);
   const { mutate } = useMutation({ mutationFn: addNewPost });
@@ -110,7 +110,7 @@ export const NewPost = ({ categories, draft }: Props) => {
   };
   useEffect(() => {
     saveDraft();
-  }, [title, editorChange]);
+  }, [title, toggleChange]);
   useEffect(() => {
     if (!draftId) {
       setDraftId(uuid());
@@ -139,7 +139,7 @@ export const NewPost = ({ categories, draft }: Props) => {
           <Editor
             ref={refEditor}
             onChange={() => {
-              setEditorChange((prev) => !prev);
+              setToggle((prev) => !prev);
             }}
             defaultData={draft ? JSON.parse(draft.content) : undefined}
           />
